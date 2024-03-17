@@ -1,8 +1,8 @@
-# Overview
+## Overview
 
 This project aims to create a decentralized platform for securely storing and trading files using blockchain technology. Users can upload files to IPFS, tokenize them as digital assets on the Ethereum blockchain, and trade them in a secure marketplace.
 
-# Technologies Used
+## Technologies Used
 
 - **Blockchain:** Ethereum
 - **Smart Contracts:** Solidity
@@ -10,7 +10,7 @@ This project aims to create a decentralized platform for securely storing and tr
 - **Frontend Framework:** Next.js
 - **Web3 Integration:** Ethers.js
 
-# Development Checkpoints
+## Development Checkpoints
 
 - **Setup and Research**
   - Initialize project repository
@@ -35,7 +35,7 @@ This project aims to create a decentralized platform for securely storing and tr
   - Monitor platform performance
   - Iterate based on user feedback
 
-# Project Status
+## Project Status
 
 - Setup and Research: ❎
 - Smart Contract Development: ❎
@@ -45,6 +45,6 @@ This project aims to create a decentralized platform for securely storing and tr
 - Deployment: ❎
 - Post-Launch: ❎
 
-# License
+## License
 
 MIT
