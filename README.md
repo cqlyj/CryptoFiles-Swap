@@ -26,10 +26,10 @@ This project aims to create a decentralized platform for securely storing and tr
   - Develop UI components for file uploads, marketplace, and transactions
   - Integrate frontend with smart contracts using Ethers.js
 - **End-to-End Testing**
-  - Test complete workflow on testnet (e.g., Sepolia)
+  - Test complete workflow on testnet 
   - Fix bugs and optimize based on test results
 - **Deployment**
-  - Deploy smart contracts to testnet and mainnet (if applicable).
+  - Deploy smart contracts to testnet 
   - Launch frontend application
 - **Post-Launch**
   - Monitor platform performance
