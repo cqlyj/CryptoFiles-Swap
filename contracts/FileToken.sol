@@ -20,25 +20,36 @@ contract FileToken is ERC721URIStorage, Ownable {
     );
     // variables
 
-    uint256 private tokenId;
-    uint256 private mintFee;
+    uint256 public tokenId;
+    uint256 public mintFee;
+    string private fileTokenURI;
+    string public fileName;
+    string public fileSymbol;
 
     // constructor
 
-    constructor() ERC721("FileToken", "FT") Ownable(msg.sender) {
+    constructor(
+        string memory _fileName,
+        string memory _fileSymbol,
+        string memory _tokenURI,
+        uint256 _mintFee
+    ) ERC721(_fileName, _fileSymbol) Ownable(msg.sender) {
         tokenId = 0;
-        mintFee = 0.01 ether;
+        mintFee = _mintFee;
+        fileTokenURI = _tokenURI;
+        fileName = _fileName;
+        fileSymbol = _fileSymbol;
     }
 
     // functions
 
-    function mintNFT(address _to, string memory _tokenURI) public payable {
+    function mintNFT(address _to) public payable {
         if (msg.value < mintFee) {
             revert FileToken__MoreEthNeeded(mintFee, msg.value);
         }
         _safeMint(_to, tokenId);
-        _setTokenURI(tokenId, _tokenURI);
-        emit TokenMinted(_to, tokenId, _tokenURI);
+        _setTokenURI(tokenId, fileTokenURI);
+        emit TokenMinted(_to, tokenId, fileTokenURI);
         tokenId++;
     }
 
@@ -62,11 +73,7 @@ contract FileToken is ERC721URIStorage, Ownable {
         }
     }
 
-    function getMintFee() public view returns (uint256) {
-        return mintFee;
-    }
-
-    function getTokenId() public view returns (uint256) {
-        return tokenId;
+    function getFileTokenURI() public view returns (string memory) {
+        return fileTokenURI;
     }
 }

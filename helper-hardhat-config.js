@@ -1,6 +1,14 @@
 const networkConfig = {
-  31337: {},
-  11155111: {},
+  31337: {
+    fileName: "FileToken",
+    fileSymbol: "FT",
+    mintFee: ethers.parseEther("0.01"),
+  },
+  11155111: {
+    fileName: "FileToken",
+    fileSymbol: "FT",
+    mintFee: ethers.parseEther("0.01"),
+  },
 };
 
 const developmentChains = ["hardhat", "localhost"];
