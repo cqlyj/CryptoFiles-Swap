@@ -1,12 +1,6 @@
 const networkConfig = {
-  31337: {
-    name: "FileTokenTest",
-    symbol: "FTT",
-  },
-  11155111: {
-    name: "FileToken",
-    symbol: "FT",
-  },
+  31337: {},
+  11155111: {},
 };
 
 const developmentChains = ["hardhat", "localhost"];

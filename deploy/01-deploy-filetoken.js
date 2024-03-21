@@ -8,12 +8,8 @@ const { verify } = require("../utils/verify");
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
-  const chainId = network.config.chainId;
 
-  const name = networkConfig[chainId].name;
-  const symbol = networkConfig[chainId].symbol;
-
-  let args = [name, symbol];
+  let args = [];
 
   const fileToken = await deploy("FileToken", {
     from: deployer,

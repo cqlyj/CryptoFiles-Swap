@@ -25,10 +25,7 @@ contract FileToken is ERC721URIStorage, Ownable {
 
     // constructor
 
-    constructor(
-        string memory name,
-        string memory symbol
-    ) ERC721(name, symbol) Ownable(msg.sender) {
+    constructor() ERC721("FileToken", "FT") Ownable(msg.sender) {
         tokenId = 0;
         mintFee = 0.01 ether;
     }
@@ -69,7 +66,7 @@ contract FileToken is ERC721URIStorage, Ownable {
         return mintFee;
     }
 
-    function gettokenId() public view returns (uint256) {
+    function getTokenId() public view returns (uint256) {
         return tokenId;
     }
 }
