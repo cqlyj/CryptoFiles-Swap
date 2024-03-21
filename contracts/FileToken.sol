@@ -15,12 +15,12 @@ contract FileToken is ERC721URIStorage, Ownable {
     event MintFeeChanged(uint256 newMintFee);
     event TokenMinted(
         address indexed to,
-        uint256 indexed tokenID,
+        uint256 indexed tokenId,
         string tokenURI
     );
     // variables
 
-    uint256 private tokenID;
+    uint256 private tokenId;
     uint256 private mintFee;
 
     // constructor
@@ -29,7 +29,7 @@ contract FileToken is ERC721URIStorage, Ownable {
         string memory name,
         string memory symbol
     ) ERC721(name, symbol) Ownable(msg.sender) {
-        tokenID = 0;
+        tokenId = 0;
         mintFee = 0.01 ether;
     }
 
@@ -39,10 +39,10 @@ contract FileToken is ERC721URIStorage, Ownable {
         if (msg.value < mintFee) {
             revert FileToken__MoreEthNeeded(mintFee, msg.value);
         }
-        _safeMint(_to, tokenID);
-        _setTokenURI(tokenID, _tokenURI);
-        emit TokenMinted(_to, tokenID, _tokenURI);
-        tokenID++;
+        _safeMint(_to, tokenId);
+        _setTokenURI(tokenId, _tokenURI);
+        emit TokenMinted(_to, tokenId, _tokenURI);
+        tokenId++;
     }
 
     function changeMintFee(uint256 newMintFee) public onlyOwner {
@@ -69,7 +69,7 @@ contract FileToken is ERC721URIStorage, Ownable {
         return mintFee;
     }
 
-    function getTokenID() public view returns (uint256) {
-        return tokenID;
+    function gettokenId() public view returns (uint256) {
+        return tokenId;
     }
 }
