@@ -1,4 +1,10 @@
 {
+  "name": "cryptofile-swap",
+  "author": {
+    "name": "Luo Yingjie",
+    "email": "luoyingjie0721@gmail.com"
+  },
+  "version": "1.0.0",
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
@@ -6,13 +12,17 @@
     "@nomicfoundation/hardhat-ignition-ethers": "^0.15.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.5",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@openzeppelin/contracts": "^5.0.2",
     "@typechain/ethers-v6": "^0.5.0",
     "@typechain/hardhat": "^9.0.0",
     "chai": "^4.2.0",
-    "ethers": "^6.4.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
     "hardhat": "^2.22.1",
+    "hardhat-deploy": "^0.12.2",
+    "hardhat-deploy-ethers": "^0.4.1",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
     "typechain": "^8.3.0"
