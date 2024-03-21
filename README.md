@@ -37,7 +37,7 @@ This project aims to create a decentralized platform for securely storing and tr
 
 ## Project Status
 
-- Setup and Research: ❎
+- Setup and Research: ✅
 - Smart Contract Development: ❎
 - IPFS Integration: ❎
 - Frontend Development: ❎
