@@ -49,7 +49,8 @@ const { deployContract } = require("@nomicfoundation/hardhat-ethers/types");
         });
 
         it("should initialize the URI", async () => {
-          const uri = await fileToken.getFileTokenURI();
+          await fileToken.mintNFT(accounts[0], { value: mintFee });
+          const uri = await fileToken.getFileTokenURI(0);
           expect(uri).to.equal(fileTokenURI);
         });
       });
@@ -90,6 +91,16 @@ const { deployContract } = require("@nomicfoundation/hardhat-ethers/types");
             .be.reverted;
         });
 
+        it("mint fee should be greater than 0", async () => {
+          const newFee = ethers.parseEther("0");
+          await expect(
+            fileToken.changeMintFee(newFee)
+          ).to.be.revertedWithCustomError(
+            fileToken,
+            "FileToken__InvalidMintFee"
+          );
+        });
+
         it("should emit a MintFeeChanged event", async () => {
           const newFee = ethers.parseEther("0.02");
           await expect(fileToken.changeMintFee(newFee))
@@ -117,6 +128,30 @@ const { deployContract } = require("@nomicfoundation/hardhat-ethers/types");
         it("only the owner should be able to withdraw the contract balance", async () => {
           await expect(fileToken.connect(accounts[1]).withdraw()).to.be
             .reverted;
+        });
+      });
+
+      describe("getFileTokenURI", () => {
+        it("should revert if the token does not exist", async () => {
+          await expect(
+            fileToken.getFileTokenURI(0)
+          ).to.be.revertedWithCustomError(
+            fileToken,
+            "FileToken__TokenNotMinted"
+          );
+        });
+
+        it("should revert if not the owner of the token", async () => {
+          const mintFee = await fileToken.mintFee();
+          await fileToken.mintNFT(accounts[1], {
+            value: mintFee,
+          });
+          await expect(
+            fileToken.connect(accounts[2]).getFileTokenURI(0)
+          ).to.be.revertedWithCustomError(
+            fileToken,
+            "FileToken__NotOwnerOfToken"
+          );
         });
       });
     });

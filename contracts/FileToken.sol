@@ -4,12 +4,20 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+// This contract is for creating NFTs for files
+// The owner need to sepecify the file name, file symbol, token URI and mint fee when deploying the contract -- from the front end deploy the contract
+// The owner of the contract can mint NFTs for files and change the mint fee, withdraw the contract balance
+// Those who want to mint NFTs for files need to pay the mint fee
+// Only those who mint the NFT can call the getTokenURI function to get the token URI
+
 contract FileToken is ERC721URIStorage, Ownable {
     //error
     error FileToken__MoreEthNeeded(uint256 requiredAmount, uint256 sentAmount);
     error FileToken__WithdrawFailed();
     error FileToken__NoBalanceForWithdraw();
     error FileToken__InvalidMintFee(uint256 newMintFee);
+    error FileToken__TokenNotMinted();
+    error FileToken__NotOwnerOfToken();
 
     //event
     event MintFeeChanged(uint256 newMintFee);
@@ -26,6 +34,8 @@ contract FileToken is ERC721URIStorage, Ownable {
     string public fileName;
     string public fileSymbol;
 
+    mapping(uint256 => bool) private mintedTokens;
+
     // constructor
 
     constructor(
@@ -39,6 +49,7 @@ contract FileToken is ERC721URIStorage, Ownable {
         fileTokenURI = _tokenURI;
         fileName = _fileName;
         fileSymbol = _fileSymbol;
+        mintedTokens[tokenId] = false;
     }
 
     // functions
@@ -49,6 +60,7 @@ contract FileToken is ERC721URIStorage, Ownable {
         }
         _safeMint(_to, tokenId);
         _setTokenURI(tokenId, fileTokenURI);
+        mintedTokens[tokenId] = true;
         emit TokenMinted(_to, tokenId, fileTokenURI);
         tokenId++;
     }
@@ -73,7 +85,15 @@ contract FileToken is ERC721URIStorage, Ownable {
         }
     }
 
-    function getFileTokenURI() public view returns (string memory) {
+    function getFileTokenURI(
+        uint256 _tokenId
+    ) public view returns (string memory) {
+        if (mintedTokens[_tokenId] == false) {
+            revert FileToken__TokenNotMinted();
+        }
+        if (ownerOf(_tokenId) != msg.sender) {
+            revert FileToken__NotOwnerOfToken();
+        }
         return fileTokenURI;
     }
 }
