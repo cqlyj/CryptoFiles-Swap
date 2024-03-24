@@ -1,12 +1,12 @@
 const { network, ethers } = require("hardhat");
 const contractAddress = require("../constants/contractAddress.json");
-const { neworkConfig, networkConfig } = require("../helper-hardhat-config");
+const { networkConfig } = require("../helper-hardhat-config");
 
 async function mintNFT() {
   const chainId = network.config.chainId;
   const fileTokenAddress = contractAddress[chainId][0];
   const fileTokenFactory = await ethers.getContractFactory("FileToken");
-  const fileToken = await fileTokenFactory.attach(fileTokenAddress);
+  const fileToken = fileTokenFactory.attach(fileTokenAddress);
   const mintFee = networkConfig[chainId].mintFee || ethers.parseEther("0.01");
 
   const accounts = await ethers.getSigners();

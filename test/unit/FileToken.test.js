@@ -4,7 +4,7 @@ const {
   developmentChains,
   networkConfig,
 } = require("../../helper-hardhat-config");
-const { deployContract } = require("@nomicfoundation/hardhat-ethers/types");
+const contractAddress = require("../../constants/contractAddress.json");
 
 !developmentChains.includes(network.name)
   ? describe.skip
@@ -17,12 +17,14 @@ const { deployContract } = require("@nomicfoundation/hardhat-ethers/types");
       const fileSymbol = networkConfig[chainId].fileSymbol;
       const mintFee = networkConfig[chainId].mintFee;
       const fileTokenURI = "test URI";
+
       beforeEach(async () => {
         accounts = await ethers.getSigners();
         deployer = accounts[0];
         await deployments.fixture(["all"]); // allow to run different tags deployments in the same test
-        const args = [fileName, fileSymbol, fileTokenURI, mintFee];
-        fileToken = await ethers.deployContract("FileToken", args, deployer);
+        const fileTokenAddress = contractAddress[chainId][0];
+        const fileTokenFactory = await ethers.getContractFactory("FileToken");
+        fileToken = fileTokenFactory.attach(fileTokenAddress);
       });
 
       describe("constructor", () => {
@@ -39,8 +41,8 @@ const { deployContract } = require("@nomicfoundation/hardhat-ethers/types");
         it("should set the right name and symbol", async () => {
           const name = await fileToken.name();
           const symbol = await fileToken.symbol();
-          expect(symbol).to.equal("FT");
-          expect(name).to.equal("FileToken");
+          expect(symbol).to.equal(fileSymbol);
+          expect(name).to.equal(fileName);
         });
 
         it("should initialize the tokenId to 0", async () => {

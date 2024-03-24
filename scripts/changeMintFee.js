@@ -5,7 +5,7 @@ async function changeMintFee() {
   const chainId = network.config.chainId;
   const fileTokenAddress = contractAddress[chainId][0];
   const fileTokenFactory = await ethers.getContractFactory("FileToken");
-  const fileToken = await fileTokenFactory.attach(fileTokenAddress);
+  const fileToken = fileTokenFactory.attach(fileTokenAddress);
 
   const newMintFee = ethers.parseEther("0.02");
 
