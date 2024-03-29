@@ -1,3 +1,3 @@
-### how to ensure that the person minting an NFT is the actual owner of the file represented by the NFT?
+### How the commission fee is applied?
 
 - solution: TBC
