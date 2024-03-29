@@ -19,6 +19,8 @@ pragma solidity ^0.8.7;
 // Only the owner of the marketplace can interact with other functions
 // Many roles -> consider using OpenZeppelin's AccessControl(RBAC)
 
+// RBAC: Role-Based Access Control: roles: TBC
+
 contract FileMarketplace {
 
 }
