@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // This contract is for creating NFTs for files
 // The owner need to sepecify the file name, file symbol, token URI and mint fee when deploying the contract -- from the front end deploy the contract
 // The owner of the contract can mint NFTs for files and change the mint fee, withdraw the contract balance
-// Those who want to mint NFTs for files need to pay the mint fee 
+// Those who want to mint NFTs for files need to pay the mint fee
 // so that no need for the owner to mint multiple NFTs for sell, the owner can just deploy the contract and let others mint NFTs for files
 // Only those who mint the NFT can call the getTokenURI function to get the token URI
 
@@ -96,5 +96,17 @@ contract FileToken is ERC721URIStorage, Ownable {
             revert FileToken__NotOwnerOfToken();
         }
         return fileTokenURI;
+    }
+
+    function creatorOfContract() public view returns (address) {
+        return owner();
+    }
+
+    receive() external payable {
+        mintNFT(msg.sender);
+    }
+
+    fallback() external payable {
+        mintNFT(msg.sender);
     }
 }
