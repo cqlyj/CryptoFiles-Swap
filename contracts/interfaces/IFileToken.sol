@@ -16,6 +16,15 @@ interface IFileToken {
         uint256 _tokenId
     ) external view returns (string memory);
 
+    // Function to get the minting fee
+    function getMintFee() external view returns (uint256);
+
+    // Fucntion to get the file name
+    function getFileName() external view returns (string memory);
+
+    // Function to get the file symbol
+    function getFileSymbol() external view returns (string memory);
+
     // Function to get the creator of the contract
     function creatorOfContract() external view returns (address);
 }

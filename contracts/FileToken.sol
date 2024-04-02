@@ -102,6 +102,18 @@ contract FileToken is ERC721URIStorage, Ownable {
         return owner();
     }
 
+    function getMintFee() public view returns (uint256) {
+        return mintFee;
+    }
+
+    function getFileName() public view returns (string memory) {
+        return fileName;
+    }
+
+    function getFileSymbol() public view returns (string memory) {
+        return fileSymbol;
+    }
+
     receive() external payable {
         mintNFT(msg.sender);
     }
