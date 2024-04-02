@@ -8,6 +8,10 @@
 
 ### How to charge the commission fee?
 
+- solution: Since those buyers can see the fileToken address and directly go search it and interact without the marketplace, charge the commission fee once the fileToken is listed should be the right choice.
+
+### Can the Admin(FileMarketplace owner) set the time of each listing can exists?
+
 - solution: TBC
 
 ### How to refactor the buyFileToken so that it can take arbitrary tokens as payments? => Also set the mintFee in other currencies.
