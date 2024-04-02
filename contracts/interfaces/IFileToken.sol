@@ -15,4 +15,7 @@ interface IFileToken {
     function getFileTokenURI(
         uint256 _tokenId
     ) external view returns (string memory);
+
+    // Function to get the creator of the contract
+    function creatorOfContract() external view returns (address);
 }
