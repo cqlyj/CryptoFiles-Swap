@@ -2,6 +2,8 @@
 
 pragma solidity ^0.8.7;
 
+import "./interfaces/IFileToken.sol";
+
 // This contract is for file trading
 // The owner of the file can list the fileToken for those who want to buy to mint the NFT for the file
 // The owner of the file can also cancel the listing
@@ -22,5 +24,30 @@ pragma solidity ^0.8.7;
 // RBAC: Role-Based Access Control: roles: TBC
 
 contract FileMarketplace {
+    struct Listing {
+        address fileTokenOwner;
+        address fileToken;
+        uint256 tokenId;
+        uint256 price;
+    }
 
+    address private FileMarketplaceOwner;
+
+    mapping(address => mapping(uint256 => Listing)) private listings; // address: fileTokenOwner, uint256: tokenId
+
+    constructor() {
+        FileMarketplaceOwner = msg.sender;
+    }
+
+    function listFileToken() public {}
+
+    function cancelListing() public {}
+
+    function buyFileToken() public {}
+
+    function changeCommissionFee() public {}
+
+    function withdrawCommissionFee() public {}
+
+    function changeOwner() public {}
 }
