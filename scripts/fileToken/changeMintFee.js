@@ -1,5 +1,5 @@
 const { ethers, network } = require("hardhat");
-const contractAddress = require("../constants/contractAddress.json");
+const contractAddress = require("../../constants/contractAddress.json");
 
 async function changeMintFee() {
   const chainId = network.config.chainId;

@@ -1,27 +1,25 @@
 const { network, ethers } = require("hardhat");
-const contractAddress = require("../constants/contractAddress.json");
-const { networkConfig } = require("../helper-hardhat-config");
+const contractAddress = require("../../constants/contractAddress.json");
 
-async function mintNFT() {
+async function withdraw() {
   const chainId = network.config.chainId;
   const fileTokenAddress = contractAddress[chainId][0];
   const fileTokenFactory = await ethers.getContractFactory("FileToken");
   const fileToken = fileTokenFactory.attach(fileTokenAddress);
-  const mintFee = networkConfig[chainId].mintFee || ethers.parseEther("0.01");
 
   const accounts = await ethers.getSigners();
   const deployer = accounts[0];
 
-  console.log("Minting NFT...");
+  console.log("Withdrawing the balance...");
 
-  const tx = await fileToken.mintNFT(deployer.address, {
-    value: mintFee,
-  });
+  const tx = await fileToken.withdraw();
   await tx.wait();
-  console.log(`NFT minted to ${deployer.address} on chain ${chainId}`);
+  console.log(
+    `Balance withdrawn from contract on chain ${chainId} to ${deployer.address}`
+  );
 }
 
-mintNFT()
+withdraw()
   .then(() => process.exit(0))
   .catch((error) => {
     console.log(error);
