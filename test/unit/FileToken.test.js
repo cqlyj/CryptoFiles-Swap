@@ -52,7 +52,7 @@ const contractAddress = require("../../constants/contractAddress.json");
 
         it("should initialize the URI", async () => {
           await fileToken.mintNFT(accounts[0], { value: mintFee });
-          const uri = await fileToken.getFileTokenURI(0);
+          const uri = await fileToken.tokenURI(0);
           expect(uri).to.equal(fileTokenURI);
         });
       });
@@ -135,9 +135,7 @@ const contractAddress = require("../../constants/contractAddress.json");
 
       describe("getFileTokenURI", () => {
         it("should revert if the token does not exist", async () => {
-          await expect(
-            fileToken.getFileTokenURI(0)
-          ).to.be.revertedWithCustomError(
+          await expect(fileToken.tokenURI(0)).to.be.revertedWithCustomError(
             fileToken,
             "FileToken__TokenNotMinted"
           );
@@ -149,7 +147,7 @@ const contractAddress = require("../../constants/contractAddress.json");
             value: mintFee,
           });
           await expect(
-            fileToken.connect(accounts[2]).getFileTokenURI(0)
+            fileToken.connect(accounts[2]).tokenURI(0)
           ).to.be.revertedWithCustomError(
             fileToken,
             "FileToken__NotOwnerOfToken"

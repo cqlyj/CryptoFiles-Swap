@@ -12,9 +12,7 @@ interface IFileToken {
     function withdraw() external;
 
     // Function to get the token URI of a minted NFT
-    function getFileTokenURI(
-        uint256 _tokenId
-    ) external view returns (string memory);
+    function tokenURI(uint256 _tokenId) external view returns (string memory);
 
     // Function to get the minting fee
     function getMintFee() external view returns (uint256);

@@ -86,9 +86,9 @@ contract FileToken is ERC721URIStorage, Ownable {
         }
     }
 
-    function getFileTokenURI(
+    function tokenURI(
         uint256 _tokenId
-    ) public view returns (string memory) {
+    ) public view override returns (string memory) {
         if (mintedTokens[_tokenId] == false) {
             revert FileToken__TokenNotMinted();
         }
