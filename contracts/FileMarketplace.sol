@@ -4,6 +4,8 @@ pragma solidity ^0.8.7;
 
 import "./interfaces/IFileToken.sol";
 
+// import "@openzeppelin/contracts/access/AccessControl.sol";
+
 // This contract is for file trading
 // The owner of the file can list the fileToken for those who want to buy to mint the NFT for the file
 // The owner of the file can also cancel the listing
@@ -27,27 +29,152 @@ contract FileMarketplace {
     struct Listing {
         address fileTokenOwner;
         address fileToken;
-        uint256 tokenId;
+        string fileName;
+        string fileSymbol;
         uint256 price;
     }
 
-    address private FileMarketplaceOwner;
+    error FileMarketplace__NotFileTokenCreator(address caller, address creator);
+    error FileMarketplace__NotEnoughFee(uint256 fee, uint256 price);
+    error FileMarketplace__InvalidCommissionFee(uint256 newCommissionFee);
+    error FileMarketplace__NoProceedsForWithdraw();
+    error FileMarketplace__WithdrawFailed();
+    error FileMarketplace__BoughtFailed();
+    error FileMarketplace__InvalidOwner(address newFileMarketplaceOwner);
+    error FileMarketplace__FileTokenNotListed();
 
-    mapping(address => mapping(uint256 => Listing)) private listings; // address: fileTokenOwner, uint256: tokenId
+    event FileTokenListed(
+        address indexed fileTokenOwner,
+        address fileToken,
+        string fileName,
+        string fileSymbol,
+        uint256 price
+    );
+    event FileTokenListingCancelled(
+        address indexed fileTokenOwner,
+        address fileToken
+    );
+    event FileTokenBought(
+        address indexed fileTokenOwner,
+        address fileToken,
+        string fileName,
+        string fileSymbol,
+        address buyer
+    );
+    event CommissionFeeChanged(uint256 newCommissionFee);
+    event ProceedsWithdrawn(uint256 amount);
+    event OwnerChanged(address newFileMarketplaceOwner);
 
-    constructor() {
-        FileMarketplaceOwner = msg.sender;
+    address private fileMarketplaceOwner;
+    uint256 public commissionFee; // how?
+
+    mapping(address => Listing) private listings;
+
+    constructor(uint256 _commissionFee) {
+        fileMarketplaceOwner = msg.sender;
+        commissionFee = _commissionFee;
     }
 
-    function listFileToken() public {}
+    function listFileToken(address fileTokenAddress) public payable {
+        if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {
+            revert FileMarketplace__NotFileTokenCreator(
+                msg.sender,
+                IFileToken(fileTokenAddress).creatorOfContract()
+            );
+        }
 
-    function cancelListing() public {}
+        if (commissionFee > msg.value) {
+            revert FileMarketplace__NotEnoughFee(msg.value, commissionFee);
+        }
 
-    function buyFileToken() public {}
+        listings[msg.sender] = Listing({
+            fileTokenOwner: msg.sender,
+            fileToken: fileTokenAddress,
+            fileName: IFileToken(fileTokenAddress).getFileName(),
+            fileSymbol: IFileToken(fileTokenAddress).getFileSymbol(),
+            price: IFileToken(fileTokenAddress).getMintFee()
+        });
 
-    function changeCommissionFee() public {}
+        emit FileTokenListed(
+            msg.sender,
+            fileTokenAddress,
+            listings[msg.sender].fileName,
+            listings[msg.sender].fileSymbol,
+            listings[msg.sender].price
+        );
+    }
 
-    function withdrawCommissionFee() public {}
+    function cancelListing(address fileTokenAddress) public {
+        if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {
+            revert FileMarketplace__NotFileTokenCreator(
+                msg.sender,
+                IFileToken(fileTokenAddress).creatorOfContract()
+            );
+        }
 
-    function changeOwner() public {}
+        delete listings[msg.sender];
+
+        emit FileTokenListingCancelled(msg.sender, fileTokenAddress);
+    }
+
+    function buyFileToken(address fileTokenOwnerAddress) public payable {
+        Listing memory listing = listings[fileTokenOwnerAddress];
+        if (listing.fileToken == address(0)) {
+            revert FileMarketplace__FileTokenNotListed();
+        }
+        if (listing.price > msg.value) {
+            revert FileMarketplace__NotEnoughFee(msg.value, listing.price);
+        }
+
+        (bool success, ) = fileTokenOwnerAddress.call{value: listing.price}("");
+        if (!success) {
+            revert FileMarketplace__BoughtFailed();
+        }
+
+        IFileToken(listing.fileToken).mintNFT(msg.sender);
+
+        emit FileTokenBought(
+            fileTokenOwnerAddress,
+            listing.fileToken,
+            listing.fileName,
+            listing.fileSymbol,
+            msg.sender
+        );
+    }
+
+    function changeCommissionFee(uint256 newCommissionFee) public {
+        if (newCommissionFee < 0) {
+            revert FileMarketplace__InvalidCommissionFee(newCommissionFee);
+        }
+        commissionFee = newCommissionFee;
+        emit CommissionFeeChanged(newCommissionFee);
+    }
+
+    function withdrawCommissionFee() public payable {
+        if (address(this).balance <= 0) {
+            revert FileMarketplace__NoProceedsForWithdraw();
+        }
+        uint256 balance = address(this).balance;
+        (bool success, ) = fileMarketplaceOwner.call{value: balance}("");
+        if (!success) {
+            revert FileMarketplace__WithdrawFailed();
+        }
+        emit ProceedsWithdrawn(balance);
+    }
+
+    function changeOwner(address newFileMarketplaceOwner) public {
+        if (newFileMarketplaceOwner == address(0)) {
+            revert FileMarketplace__InvalidOwner(newFileMarketplaceOwner);
+        }
+        fileMarketplaceOwner = newFileMarketplaceOwner;
+        emit OwnerChanged(newFileMarketplaceOwner);
+    }
+
+    function getCommissionFee() public view returns (uint256) {
+        return commissionFee;
+    }
+
+    receive() external payable {}
+
+    fallback() external payable {}
 }
