@@ -25,7 +25,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     waitConfirmations: network.config.blockConfirmations || 1,
   });
 
-  const CONTRACT_ADDRESS_FILE = "./constants/contractAddress.json";
+  const CONTRACT_ADDRESS_FILE = "./constants/fileTokenAddress.json";
   const currentAddress = JSON.parse(
     fs.readFileSync(CONTRACT_ADDRESS_FILE),
     "utf-8"

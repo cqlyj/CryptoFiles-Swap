@@ -1,5 +1,5 @@
 const { network, ethers } = require("hardhat");
-const contractAddress = require("../../constants/contractAddress.json");
+const contractAddress = require("../../constants/fileTokenAddress.json");
 const { networkConfig } = require("../../helper-hardhat-config");
 
 async function mintNFT() {
