@@ -1,0 +1,461 @@
+{
+  "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_commissionFee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "FileMarketplace__BoughtFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "FileMarketplace__FileTokenNotListed",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "newCommissionFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "FileMarketplace__InvalidCommissionFee",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newFileMarketplaceOwner",
+          "type": "address"
+        }
+      ],
+      "name": "FileMarketplace__InvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "FileMarketplace__NoProceedsForWithdraw",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "FileMarketplace__NotEnoughFee",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "name": "FileMarketplace__NotFileTokenCreator",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "FileMarketplace__WithdrawFailed",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newCommissionFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "CommissionFeeChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "fileTokenOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "fileToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "fileName",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "fileSymbol",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        }
+      ],
+      "name": "FileTokenBought",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "fileTokenOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "fileToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "fileName",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "fileSymbol",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "FileTokenListed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "fileTokenOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "fileToken",
+          "type": "address"
+        }
+      ],
+      "name": "FileTokenListingCancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newFileMarketplaceOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnerChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "ProceedsWithdrawn",
+      "type": "event"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "fileTokenOwnerAddress",
+          "type": "address"
+        }
+      ],
+      "name": "buyFileToken",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "fileTokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "cancelListing",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "newCommissionFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "changeCommissionFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newFileMarketplaceOwner",
+          "type": "address"
+        }
+      ],
+      "name": "changeOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "commissionFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCommissionFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "fileTokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "listFileToken",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawCommissionFee",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0xcbec4cae982aa8d617e7340535ac47180e8e5f36900c97f71c4cc934d6b56cd4",
+  "receipt": {
+    "to": null,
+    "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "contractAddress": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "transactionIndex": 0,
+    "gasUsed": "1505583",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xac5c415dc210edeb1bdcd9f0bda48232c07e2947e252cc2fa62f37eb53a7af2e",
+    "transactionHash": "0xcbec4cae982aa8d617e7340535ac47180e8e5f36900c97f71c4cc934d6b56cd4",
+    "logs": [],
+    "blockNumber": 2,
+    "cumulativeGasUsed": "1505583",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "10000000000000000"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "6d1d22ceb1c15acc7320e5821858c7b0",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_commissionFee\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"FileMarketplace__BoughtFailed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"FileMarketplace__FileTokenNotListed\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newCommissionFee\",\"type\":\"uint256\"}],\"name\":\"FileMarketplace__InvalidCommissionFee\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newFileMarketplaceOwner\",\"type\":\"address\"}],\"name\":\"FileMarketplace__InvalidOwner\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"FileMarketplace__NoProceedsForWithdraw\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"FileMarketplace__NotEnoughFee\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"creator\",\"type\":\"address\"}],\"name\":\"FileMarketplace__NotFileTokenCreator\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"FileMarketplace__WithdrawFailed\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newCommissionFee\",\"type\":\"uint256\"}],\"name\":\"CommissionFeeChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"fileTokenOwner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"fileToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"fileName\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"fileSymbol\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"buyer\",\"type\":\"address\"}],\"name\":\"FileTokenBought\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"fileTokenOwner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"fileToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"fileName\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"fileSymbol\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"FileTokenListed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"fileTokenOwner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"fileToken\",\"type\":\"address\"}],\"name\":\"FileTokenListingCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newFileMarketplaceOwner\",\"type\":\"address\"}],\"name\":\"OwnerChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"ProceedsWithdrawn\",\"type\":\"event\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"fileTokenOwnerAddress\",\"type\":\"address\"}],\"name\":\"buyFileToken\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"fileTokenAddress\",\"type\":\"address\"}],\"name\":\"cancelListing\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newCommissionFee\",\"type\":\"uint256\"}],\"name\":\"changeCommissionFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newFileMarketplaceOwner\",\"type\":\"address\"}],\"name\":\"changeOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"commissionFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCommissionFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"fileTokenAddress\",\"type\":\"address\"}],\"name\":\"listFileToken\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdrawCommissionFee\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/FileMarketplace.sol\":\"FileMarketplace\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/FileMarketplace.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.7;\\n\\nimport \\\"./interfaces/IFileToken.sol\\\";\\n\\n// import \\\"@openzeppelin/contracts/access/AccessControl.sol\\\";\\n\\n// This contract is for file trading\\n// The owner of the file can list the fileToken for those who want to buy to mint the NFT for the file\\n// The owner of the file can also cancel the listing\\n// Provide an interface where users can see details about the file and mint NFTs directly from the `FileToken` contract by paying the minting fee.\\n// This contract can track the ownership and transaction history of each NFT minted from the `FileToken` contracts.\\n// This information can be used to display the history and provenance of each file token.\\n// This contract owner will earn a commission\\n// -> the owner of this contract can set the commission fee:\\n// -> the owner of this contract can withdraw the commission fee\\n// -> the owner of this contract can change the commission fee\\n// -> the owner of this contract can change the owner of the contract\\n// This contract only deployed by the marketplace owner\\n// Those fileToken owners can call the listFileToken function to list their fileToken contracts\\n// Those fileToken owners can call the cancelListing function to cancel the listing\\n// Only the owner of the marketplace can interact with other functions\\n// Many roles -> consider using OpenZeppelin's AccessControl(RBAC)\\n\\n// RBAC: Role-Based Access Control: roles: TBC\\n\\ncontract FileMarketplace {\\n    struct Listing {\\n        address fileTokenOwner;\\n        address fileToken;\\n        string fileName;\\n        string fileSymbol;\\n        uint256 price;\\n    }\\n\\n    error FileMarketplace__NotFileTokenCreator(address caller, address creator);\\n    error FileMarketplace__NotEnoughFee(uint256 fee, uint256 price);\\n    error FileMarketplace__InvalidCommissionFee(uint256 newCommissionFee);\\n    error FileMarketplace__NoProceedsForWithdraw();\\n    error FileMarketplace__WithdrawFailed();\\n    error FileMarketplace__BoughtFailed();\\n    error FileMarketplace__InvalidOwner(address newFileMarketplaceOwner);\\n    error FileMarketplace__FileTokenNotListed();\\n\\n    event FileTokenListed(\\n        address indexed fileTokenOwner,\\n        address fileToken,\\n        string fileName,\\n        string fileSymbol,\\n        uint256 price\\n    );\\n    event FileTokenListingCancelled(\\n        address indexed fileTokenOwner,\\n        address fileToken\\n    );\\n    event FileTokenBought(\\n        address indexed fileTokenOwner,\\n        address fileToken,\\n        string fileName,\\n        string fileSymbol,\\n        address buyer\\n    );\\n    event CommissionFeeChanged(uint256 newCommissionFee);\\n    event ProceedsWithdrawn(uint256 amount);\\n    event OwnerChanged(address newFileMarketplaceOwner);\\n\\n    address private fileMarketplaceOwner;\\n    uint256 public commissionFee; // how?\\n\\n    mapping(address => Listing) private listings;\\n\\n    constructor(uint256 _commissionFee) {\\n        fileMarketplaceOwner = msg.sender;\\n        commissionFee = _commissionFee;\\n    }\\n\\n    function listFileToken(address fileTokenAddress) public payable {\\n        if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {\\n            revert FileMarketplace__NotFileTokenCreator(\\n                msg.sender,\\n                IFileToken(fileTokenAddress).creatorOfContract()\\n            );\\n        }\\n\\n        if (commissionFee > msg.value) {\\n            revert FileMarketplace__NotEnoughFee(msg.value, commissionFee);\\n        }\\n\\n        listings[msg.sender] = Listing({\\n            fileTokenOwner: msg.sender,\\n            fileToken: fileTokenAddress,\\n            fileName: IFileToken(fileTokenAddress).getFileName(),\\n            fileSymbol: IFileToken(fileTokenAddress).getFileSymbol(),\\n            price: IFileToken(fileTokenAddress).getMintFee()\\n        });\\n\\n        emit FileTokenListed(\\n            msg.sender,\\n            fileTokenAddress,\\n            listings[msg.sender].fileName,\\n            listings[msg.sender].fileSymbol,\\n            listings[msg.sender].price\\n        );\\n    }\\n\\n    function cancelListing(address fileTokenAddress) public {\\n        if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {\\n            revert FileMarketplace__NotFileTokenCreator(\\n                msg.sender,\\n                IFileToken(fileTokenAddress).creatorOfContract()\\n            );\\n        }\\n\\n        delete listings[msg.sender];\\n\\n        emit FileTokenListingCancelled(msg.sender, fileTokenAddress);\\n    }\\n\\n    function buyFileToken(address fileTokenOwnerAddress) public payable {\\n        Listing memory listing = listings[fileTokenOwnerAddress];\\n        if (listing.fileToken == address(0)) {\\n            revert FileMarketplace__FileTokenNotListed();\\n        }\\n        if (listing.price > msg.value) {\\n            revert FileMarketplace__NotEnoughFee(msg.value, listing.price);\\n        }\\n\\n        (bool success, ) = fileTokenOwnerAddress.call{value: listing.price}(\\\"\\\");\\n        if (!success) {\\n            revert FileMarketplace__BoughtFailed();\\n        }\\n\\n        IFileToken(listing.fileToken).mintNFT(msg.sender);\\n\\n        emit FileTokenBought(\\n            fileTokenOwnerAddress,\\n            listing.fileToken,\\n            listing.fileName,\\n            listing.fileSymbol,\\n            msg.sender\\n        );\\n    }\\n\\n    function changeCommissionFee(uint256 newCommissionFee) public {\\n        if (newCommissionFee < 0) {\\n            revert FileMarketplace__InvalidCommissionFee(newCommissionFee);\\n        }\\n        commissionFee = newCommissionFee;\\n        emit CommissionFeeChanged(newCommissionFee);\\n    }\\n\\n    function withdrawCommissionFee() public payable {\\n        if (address(this).balance <= 0) {\\n            revert FileMarketplace__NoProceedsForWithdraw();\\n        }\\n        uint256 balance = address(this).balance;\\n        (bool success, ) = fileMarketplaceOwner.call{value: balance}(\\\"\\\");\\n        if (!success) {\\n            revert FileMarketplace__WithdrawFailed();\\n        }\\n        emit ProceedsWithdrawn(balance);\\n    }\\n\\n    function changeOwner(address newFileMarketplaceOwner) public {\\n        if (newFileMarketplaceOwner == address(0)) {\\n            revert FileMarketplace__InvalidOwner(newFileMarketplaceOwner);\\n        }\\n        fileMarketplaceOwner = newFileMarketplaceOwner;\\n        emit OwnerChanged(newFileMarketplaceOwner);\\n    }\\n\\n    function getCommissionFee() public view returns (uint256) {\\n        return commissionFee;\\n    }\\n\\n    receive() external payable {}\\n\\n    fallback() external payable {}\\n}\\n\",\"keccak256\":\"0xb5decadbe3962760bbab828ec13aed39783589bbe1612ccd9eb7b8ab119a747e\",\"license\":\"MIT\"},\"contracts/interfaces/IFileToken.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.7;\\n\\ninterface IFileToken {\\n    // Function to mint an NFT for a file\\n    function mintNFT(address _to) external payable;\\n\\n    // Function to change the minting fee\\n    function changeMintFee(uint256 newMintFee) external;\\n\\n    // Function to withdraw the contract's balance\\n    function withdraw() external;\\n\\n    // Function to get the token URI of a minted NFT\\n    function tokenURI(uint256 _tokenId) external view returns (string memory);\\n\\n    // Function to get the minting fee\\n    function getMintFee() external view returns (uint256);\\n\\n    // Fucntion to get the file name\\n    function getFileName() external view returns (string memory);\\n\\n    // Function to get the file symbol\\n    function getFileSymbol() external view returns (string memory);\\n\\n    // Function to get the creator of the contract\\n    function creatorOfContract() external view returns (address);\\n}\\n\",\"keccak256\":\"0xd1fe8a283b17b13f0bf8dee5dc236283140ee610cf880e8c610ca47c1268dd31\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60806040523480156200001157600080fd5b5060405162001a8138038062001a818339818101604052810190620000379190620000c5565b336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508060018190555050620000f7565b600080fd5b6000819050919050565b6200009f816200008a565b8114620000ab57600080fd5b50565b600081519050620000bf8162000094565b92915050565b600060208284031215620000de57620000dd62000085565b5b6000620000ee84828501620000ae565b91505092915050565b61197a80620001076000396000f3fe60806040526004361061007f5760003560e01c80636fb1eb0c1161004e5780636fb1eb0c146101005780639d7d496e1461012b578063a6f9dae114610156578063b986eaf01461017f57610086565b806307b3acf1146100885780631cf196df146100925780634724da6f146100bb57806369c27de0146100e457610086565b3661008657005b005b61009061019b565b005b34801561009e57600080fd5b506100b960048036038101906100b49190611115565b6102d8565b005b3480156100c757600080fd5b506100e260048036038101906100dd91906111a0565b61035f565b005b6100fe60048036038101906100f991906111a0565b6105b6565b005b34801561010c57600080fd5b50610115610b17565b60405161012291906111dc565b60405180910390f35b34801561013757600080fd5b50610140610b1d565b60405161014d91906111dc565b60405180910390f35b34801561016257600080fd5b5061017d600480360381019061017891906111a0565b610b27565b005b610199600480360381019061019491906111a0565b610c12565b005b600047116101d5576040517f4a247baf00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b600047905060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168260405161022190611228565b60006040518083038185875af1925050503d806000811461025e576040519150601f19603f3d011682016040523d82523d6000602084013e610263565b606091505b505090508061029e576040517f6323686a00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b7e85f56592462784083e828817207817f9a8413860eb3c60e01ba90ce6f925d9826040516102cc91906111dc565b60405180910390a15050565b600081101561031e57806040517fc6750bbc00000000000000000000000000000000000000000000000000000000815260040161031591906111dc565b60405180910390fd5b806001819055507facf4d78b53f9d63cbd76ccae2aa87cc5fb45ebcb8c9bcd834dbd31b1be0bdafa8160405161035491906111dc565b60405180910390a150565b8073ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156103aa573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103ce9190611252565b73ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16146104ad57338173ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561044c573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104709190611252565b6040517ff68670150000000000000000000000000000000000000000000000000000000081526004016104a492919061128e565b60405180910390fd5b600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600080820160006101000a81549073ffffffffffffffffffffffffffffffffffffffff02191690556001820160006101000a81549073ffffffffffffffffffffffffffffffffffffffff021916905560028201600061054b919061106e565b60038201600061055b919061106e565b600482016000905550503373ffffffffffffffffffffffffffffffffffffffff167f8eb13a872c0fa17489b7475219eb593e9b14b7a9f8684115ec29253460a6a8ff826040516105ab91906112b7565b60405180910390a250565b8073ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610601573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106259190611252565b73ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461070457338173ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156106a3573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106c79190611252565b6040517ff68670150000000000000000000000000000000000000000000000000000000081526004016106fb92919061128e565b60405180910390fd5b34600154111561074f57346001546040517ffb6232f60000000000000000000000000000000000000000000000000000000081526004016107469291906112d2565b60405180910390fd5b6040518060a001604052803373ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1663fcf6c23c6040518163ffffffff1660e01b8152600401600060405180830381865afa1580156107dd573d6000803e3d6000fd5b505050506040513d6000823e3d601f19601f82011682018060405250810190610806919061145c565b81526020018273ffffffffffffffffffffffffffffffffffffffff16637d3dd5516040518163ffffffff1660e01b8152600401600060405180830381865afa158015610856573d6000803e3d6000fd5b505050506040513d6000823e3d601f19601f8201168201806040525081019061087f919061145c565b81526020018273ffffffffffffffffffffffffffffffffffffffff16637a5caab36040518163ffffffff1660e01b8152600401602060405180830381865afa1580156108cf573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108f391906114ba565b815250600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060408201518160020190816109d891906116fe565b5060608201518160030190816109ee91906116fe565b50608082015181600401559050503373ffffffffffffffffffffffffffffffffffffffff167f4837445f6f627fb9b83ad5ff3d0a0af15d453e5044ead6a4c3d67183c25af04082600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600201600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600301600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060040154604051610b0c9493929190611865565b60405180910390a250565b60015481565b6000600154905090565b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1603610b9857806040517f1c28b37b000000000000000000000000000000000000000000000000000000008152600401610b8f91906112b7565b60405180910390fd5b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507fa2ea9883a321a3e97b8266c2b078bfeec6d50c711ed71f874a90d500ae2eaf3681604051610c0791906112b7565b60405180910390a150565b6000600260008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206040518060a00160405290816000820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020016001820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001600282018054610d1a90611521565b80601f0160208091040260200160405190810160405280929190818152602001828054610d4690611521565b8015610d935780601f10610d6857610100808354040283529160200191610d93565b820191906000526020600020905b815481529060010190602001808311610d7657829003601f168201915b50505050508152602001600382018054610dac90611521565b80601f0160208091040260200160405190810160405280929190818152602001828054610dd890611521565b8015610e255780601f10610dfa57610100808354040283529160200191610e25565b820191906000526020600020905b815481529060010190602001808311610e0857829003601f168201915b505050505081526020016004820154815250509050600073ffffffffffffffffffffffffffffffffffffffff16816020015173ffffffffffffffffffffffffffffffffffffffff1603610ea4576040517ff9fd269300000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b3481608001511115610ef3573481608001516040517ffb6232f6000000000000000000000000000000000000000000000000000000008152600401610eea9291906112d2565b60405180910390fd5b60008273ffffffffffffffffffffffffffffffffffffffff168260800151604051610f1d90611228565b60006040518083038185875af1925050503d8060008114610f5a576040519150601f19603f3d011682016040523d82523d6000602084013e610f5f565b606091505b5050905080610f9a576040517f8421543500000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b816020015173ffffffffffffffffffffffffffffffffffffffff166354ba0f27336040518263ffffffff1660e01b8152600401610fd791906112b7565b600060405180830381600087803b158015610ff157600080fd5b505af1158015611005573d6000803e3d6000fd5b505050508273ffffffffffffffffffffffffffffffffffffffff167fffc1a05fed963bf870689da19756ad79b1fbb83e344ea31fdd528ec62293004a8360200151846040015185606001513360405161106194939291906118f1565b60405180910390a2505050565b50805461107a90611521565b6000825580601f1061108c57506110ab565b601f0160209004906000526020600020908101906110aa91906110ae565b5b50565b5b808211156110c75760008160009055506001016110af565b5090565b6000604051905090565b600080fd5b600080fd5b6000819050919050565b6110f2816110df565b81146110fd57600080fd5b50565b60008135905061110f816110e9565b92915050565b60006020828403121561112b5761112a6110d5565b5b600061113984828501611100565b91505092915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b600061116d82611142565b9050919050565b61117d81611162565b811461118857600080fd5b50565b60008135905061119a81611174565b92915050565b6000602082840312156111b6576111b56110d5565b5b60006111c48482850161118b565b91505092915050565b6111d6816110df565b82525050565b60006020820190506111f160008301846111cd565b92915050565b600081905092915050565b50565b60006112126000836111f7565b915061121d82611202565b600082019050919050565b600061123382611205565b9150819050919050565b60008151905061124c81611174565b92915050565b600060208284031215611268576112676110d5565b5b60006112768482850161123d565b91505092915050565b61128881611162565b82525050565b60006040820190506112a3600083018561127f565b6112b0602083018461127f565b9392505050565b60006020820190506112cc600083018461127f565b92915050565b60006040820190506112e760008301856111cd565b6112f460208301846111cd565b9392505050565b600080fd5b600080fd5b6000601f19601f8301169050919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b61134e82611305565b810181811067ffffffffffffffff8211171561136d5761136c611316565b5b80604052505050565b60006113806110cb565b905061138c8282611345565b919050565b600067ffffffffffffffff8211156113ac576113ab611316565b5b6113b582611305565b9050602081019050919050565b60005b838110156113e05780820151818401526020810190506113c5565b60008484015250505050565b60006113ff6113fa84611391565b611376565b90508281526020810184848401111561141b5761141a611300565b5b6114268482856113c2565b509392505050565b600082601f830112611443576114426112fb565b5b81516114538482602086016113ec565b91505092915050565b600060208284031215611472576114716110d5565b5b600082015167ffffffffffffffff8111156114905761148f6110da565b5b61149c8482850161142e565b91505092915050565b6000815190506114b4816110e9565b92915050565b6000602082840312156114d0576114cf6110d5565b5b60006114de848285016114a5565b91505092915050565b600081519050919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052602260045260246000fd5b6000600282049050600182168061153957607f821691505b60208210810361154c5761154b6114f2565b5b50919050565b60008190508160005260206000209050919050565b60006020601f8301049050919050565b600082821b905092915050565b6000600883026115b47fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff82611577565b6115be8683611577565b95508019841693508086168417925050509392505050565b6000819050919050565b60006115fb6115f66115f1846110df565b6115d6565b6110df565b9050919050565b6000819050919050565b611615836115e0565b61162961162182611602565b848454611584565b825550505050565b600090565b61163e611631565b61164981848461160c565b505050565b5b8181101561166d57611662600082611636565b60018101905061164f565b5050565b601f8211156116b25761168381611552565b61168c84611567565b8101602085101561169b578190505b6116af6116a785611567565b83018261164e565b50505b505050565b600082821c905092915050565b60006116d5600019846008026116b7565b1980831691505092915050565b60006116ee83836116c4565b9150826002028217905092915050565b611707826114e7565b67ffffffffffffffff8111156117205761171f611316565b5b61172a8254611521565b611735828285611671565b600060209050601f8311600181146117685760008415611756578287015190505b61176085826116e2565b8655506117c8565b601f19841661177686611552565b60005b8281101561179e57848901518255600182019150602085019450602081019050611779565b868310156117bb57848901516117b7601f8916826116c4565b8355505b6001600288020188555050505b505050505050565b600082825260208201905092915050565b600081546117ee81611521565b6117f881866117d0565b9450600182166000811461181357600181146118295761185c565b60ff19831686528115156020028601935061185c565b61183285611552565b60005b8381101561185457815481890152600182019150602081019050611835565b808801955050505b50505092915050565b600060808201905061187a600083018761127f565b818103602083015261188c81866117e1565b905081810360408301526118a081856117e1565b90506118af60608301846111cd565b95945050505050565b60006118c3826114e7565b6118cd81856117d0565b93506118dd8185602086016113c2565b6118e681611305565b840191505092915050565b6000608082019050611906600083018761127f565b818103602083015261191881866118b8565b9050818103604083015261192c81856118b8565b905061193b606083018461127f565b9594505050505056fea264697066735822122091760166403f6a5e96d00da5f8e9139724c6a38a3b8abc05d528b6bf41db09f764736f6c63430008180033",
+  "deployedBytecode": "0x60806040526004361061007f5760003560e01c80636fb1eb0c1161004e5780636fb1eb0c146101005780639d7d496e1461012b578063a6f9dae114610156578063b986eaf01461017f57610086565b806307b3acf1146100885780631cf196df146100925780634724da6f146100bb57806369c27de0146100e457610086565b3661008657005b005b61009061019b565b005b34801561009e57600080fd5b506100b960048036038101906100b49190611115565b6102d8565b005b3480156100c757600080fd5b506100e260048036038101906100dd91906111a0565b61035f565b005b6100fe60048036038101906100f991906111a0565b6105b6565b005b34801561010c57600080fd5b50610115610b17565b60405161012291906111dc565b60405180910390f35b34801561013757600080fd5b50610140610b1d565b60405161014d91906111dc565b60405180910390f35b34801561016257600080fd5b5061017d600480360381019061017891906111a0565b610b27565b005b610199600480360381019061019491906111a0565b610c12565b005b600047116101d5576040517f4a247baf00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b600047905060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168260405161022190611228565b60006040518083038185875af1925050503d806000811461025e576040519150601f19603f3d011682016040523d82523d6000602084013e610263565b606091505b505090508061029e576040517f6323686a00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b7e85f56592462784083e828817207817f9a8413860eb3c60e01ba90ce6f925d9826040516102cc91906111dc565b60405180910390a15050565b600081101561031e57806040517fc6750bbc00000000000000000000000000000000000000000000000000000000815260040161031591906111dc565b60405180910390fd5b806001819055507facf4d78b53f9d63cbd76ccae2aa87cc5fb45ebcb8c9bcd834dbd31b1be0bdafa8160405161035491906111dc565b60405180910390a150565b8073ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156103aa573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103ce9190611252565b73ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16146104ad57338173ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561044c573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104709190611252565b6040517ff68670150000000000000000000000000000000000000000000000000000000081526004016104a492919061128e565b60405180910390fd5b600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600080820160006101000a81549073ffffffffffffffffffffffffffffffffffffffff02191690556001820160006101000a81549073ffffffffffffffffffffffffffffffffffffffff021916905560028201600061054b919061106e565b60038201600061055b919061106e565b600482016000905550503373ffffffffffffffffffffffffffffffffffffffff167f8eb13a872c0fa17489b7475219eb593e9b14b7a9f8684115ec29253460a6a8ff826040516105ab91906112b7565b60405180910390a250565b8073ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610601573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106259190611252565b73ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461070457338173ffffffffffffffffffffffffffffffffffffffff16637710bcfb6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156106a3573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106c79190611252565b6040517ff68670150000000000000000000000000000000000000000000000000000000081526004016106fb92919061128e565b60405180910390fd5b34600154111561074f57346001546040517ffb6232f60000000000000000000000000000000000000000000000000000000081526004016107469291906112d2565b60405180910390fd5b6040518060a001604052803373ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1663fcf6c23c6040518163ffffffff1660e01b8152600401600060405180830381865afa1580156107dd573d6000803e3d6000fd5b505050506040513d6000823e3d601f19601f82011682018060405250810190610806919061145c565b81526020018273ffffffffffffffffffffffffffffffffffffffff16637d3dd5516040518163ffffffff1660e01b8152600401600060405180830381865afa158015610856573d6000803e3d6000fd5b505050506040513d6000823e3d601f19601f8201168201806040525081019061087f919061145c565b81526020018273ffffffffffffffffffffffffffffffffffffffff16637a5caab36040518163ffffffff1660e01b8152600401602060405180830381865afa1580156108cf573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108f391906114ba565b815250600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060408201518160020190816109d891906116fe565b5060608201518160030190816109ee91906116fe565b50608082015181600401559050503373ffffffffffffffffffffffffffffffffffffffff167f4837445f6f627fb9b83ad5ff3d0a0af15d453e5044ead6a4c3d67183c25af04082600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600201600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600301600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060040154604051610b0c9493929190611865565b60405180910390a250565b60015481565b6000600154905090565b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1603610b9857806040517f1c28b37b000000000000000000000000000000000000000000000000000000008152600401610b8f91906112b7565b60405180910390fd5b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507fa2ea9883a321a3e97b8266c2b078bfeec6d50c711ed71f874a90d500ae2eaf3681604051610c0791906112b7565b60405180910390a150565b6000600260008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206040518060a00160405290816000820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020016001820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001600282018054610d1a90611521565b80601f0160208091040260200160405190810160405280929190818152602001828054610d4690611521565b8015610d935780601f10610d6857610100808354040283529160200191610d93565b820191906000526020600020905b815481529060010190602001808311610d7657829003601f168201915b50505050508152602001600382018054610dac90611521565b80601f0160208091040260200160405190810160405280929190818152602001828054610dd890611521565b8015610e255780601f10610dfa57610100808354040283529160200191610e25565b820191906000526020600020905b815481529060010190602001808311610e0857829003601f168201915b505050505081526020016004820154815250509050600073ffffffffffffffffffffffffffffffffffffffff16816020015173ffffffffffffffffffffffffffffffffffffffff1603610ea4576040517ff9fd269300000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b3481608001511115610ef3573481608001516040517ffb6232f6000000000000000000000000000000000000000000000000000000008152600401610eea9291906112d2565b60405180910390fd5b60008273ffffffffffffffffffffffffffffffffffffffff168260800151604051610f1d90611228565b60006040518083038185875af1925050503d8060008114610f5a576040519150601f19603f3d011682016040523d82523d6000602084013e610f5f565b606091505b5050905080610f9a576040517f8421543500000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b816020015173ffffffffffffffffffffffffffffffffffffffff166354ba0f27336040518263ffffffff1660e01b8152600401610fd791906112b7565b600060405180830381600087803b158015610ff157600080fd5b505af1158015611005573d6000803e3d6000fd5b505050508273ffffffffffffffffffffffffffffffffffffffff167fffc1a05fed963bf870689da19756ad79b1fbb83e344ea31fdd528ec62293004a8360200151846040015185606001513360405161106194939291906118f1565b60405180910390a2505050565b50805461107a90611521565b6000825580601f1061108c57506110ab565b601f0160209004906000526020600020908101906110aa91906110ae565b5b50565b5b808211156110c75760008160009055506001016110af565b5090565b6000604051905090565b600080fd5b600080fd5b6000819050919050565b6110f2816110df565b81146110fd57600080fd5b50565b60008135905061110f816110e9565b92915050565b60006020828403121561112b5761112a6110d5565b5b600061113984828501611100565b91505092915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b600061116d82611142565b9050919050565b61117d81611162565b811461118857600080fd5b50565b60008135905061119a81611174565b92915050565b6000602082840312156111b6576111b56110d5565b5b60006111c48482850161118b565b91505092915050565b6111d6816110df565b82525050565b60006020820190506111f160008301846111cd565b92915050565b600081905092915050565b50565b60006112126000836111f7565b915061121d82611202565b600082019050919050565b600061123382611205565b9150819050919050565b60008151905061124c81611174565b92915050565b600060208284031215611268576112676110d5565b5b60006112768482850161123d565b91505092915050565b61128881611162565b82525050565b60006040820190506112a3600083018561127f565b6112b0602083018461127f565b9392505050565b60006020820190506112cc600083018461127f565b92915050565b60006040820190506112e760008301856111cd565b6112f460208301846111cd565b9392505050565b600080fd5b600080fd5b6000601f19601f8301169050919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b61134e82611305565b810181811067ffffffffffffffff8211171561136d5761136c611316565b5b80604052505050565b60006113806110cb565b905061138c8282611345565b919050565b600067ffffffffffffffff8211156113ac576113ab611316565b5b6113b582611305565b9050602081019050919050565b60005b838110156113e05780820151818401526020810190506113c5565b60008484015250505050565b60006113ff6113fa84611391565b611376565b90508281526020810184848401111561141b5761141a611300565b5b6114268482856113c2565b509392505050565b600082601f830112611443576114426112fb565b5b81516114538482602086016113ec565b91505092915050565b600060208284031215611472576114716110d5565b5b600082015167ffffffffffffffff8111156114905761148f6110da565b5b61149c8482850161142e565b91505092915050565b6000815190506114b4816110e9565b92915050565b6000602082840312156114d0576114cf6110d5565b5b60006114de848285016114a5565b91505092915050565b600081519050919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052602260045260246000fd5b6000600282049050600182168061153957607f821691505b60208210810361154c5761154b6114f2565b5b50919050565b60008190508160005260206000209050919050565b60006020601f8301049050919050565b600082821b905092915050565b6000600883026115b47fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff82611577565b6115be8683611577565b95508019841693508086168417925050509392505050565b6000819050919050565b60006115fb6115f66115f1846110df565b6115d6565b6110df565b9050919050565b6000819050919050565b611615836115e0565b61162961162182611602565b848454611584565b825550505050565b600090565b61163e611631565b61164981848461160c565b505050565b5b8181101561166d57611662600082611636565b60018101905061164f565b5050565b601f8211156116b25761168381611552565b61168c84611567565b8101602085101561169b578190505b6116af6116a785611567565b83018261164e565b50505b505050565b600082821c905092915050565b60006116d5600019846008026116b7565b1980831691505092915050565b60006116ee83836116c4565b9150826002028217905092915050565b611707826114e7565b67ffffffffffffffff8111156117205761171f611316565b5b61172a8254611521565b611735828285611671565b600060209050601f8311600181146117685760008415611756578287015190505b61176085826116e2565b8655506117c8565b601f19841661177686611552565b60005b8281101561179e57848901518255600182019150602085019450602081019050611779565b868310156117bb57848901516117b7601f8916826116c4565b8355505b6001600288020188555050505b505050505050565b600082825260208201905092915050565b600081546117ee81611521565b6117f881866117d0565b9450600182166000811461181357600181146118295761185c565b60ff19831686528115156020028601935061185c565b61183285611552565b60005b8381101561185457815481890152600182019150602081019050611835565b808801955050505b50505092915050565b600060808201905061187a600083018761127f565b818103602083015261188c81866117e1565b905081810360408301526118a081856117e1565b90506118af60608301846111cd565b95945050505050565b60006118c3826114e7565b6118cd81856117d0565b93506118dd8185602086016113c2565b6118e681611305565b840191505092915050565b6000608082019050611906600083018761127f565b818103602083015261191881866118b8565b9050818103604083015261192c81856118b8565b905061193b606083018461127f565b9594505050505056fea264697066735822122091760166403f6a5e96d00da5f8e9139724c6a38a3b8abc05d528b6bf41db09f764736f6c63430008180033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3180,
+        "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+        "label": "fileMarketplaceOwner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 3182,
+        "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+        "label": "commissionFee",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 3187,
+        "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+        "label": "listings",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_struct(Listing)3108_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_struct(Listing)3108_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct FileMarketplace.Listing)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Listing)3108_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Listing)3108_storage": {
+        "encoding": "inplace",
+        "label": "struct FileMarketplace.Listing",
+        "members": [
+          {
+            "astId": 3099,
+            "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+            "label": "fileTokenOwner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 3101,
+            "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+            "label": "fileToken",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address"
+          },
+          {
+            "astId": 3103,
+            "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+            "label": "fileName",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 3105,
+            "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+            "label": "fileSymbol",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 3107,
+            "contract": "contracts/FileMarketplace.sol:FileMarketplace",
+            "label": "price",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "160"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
