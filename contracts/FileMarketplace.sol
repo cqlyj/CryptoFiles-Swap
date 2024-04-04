@@ -3,8 +3,8 @@
 pragma solidity ^0.8.7;
 
 import "./interfaces/IFileToken.sol";
-
-// import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 // This contract is for file trading
 // The owner of the file can list the fileToken for those who want to buy to mint the NFT for the file
@@ -21,11 +21,10 @@ import "./interfaces/IFileToken.sol";
 // Those fileToken owners can call the listFileToken function to list their fileToken contracts
 // Those fileToken owners can call the cancelListing function to cancel the listing
 // Only the owner of the marketplace can interact with other functions
-// Many roles -> consider using OpenZeppelin's AccessControl(RBAC)
 
-// RBAC: Role-Based Access Control: roles: TBC
+// ReentrancyGuard is needed to prevent reentrancy attack
 
-contract FileMarketplace {
+contract FileMarketplace is Ownable, ReentrancyGuard {
     struct Listing {
         address fileTokenOwner;
         address fileToken;
@@ -40,8 +39,10 @@ contract FileMarketplace {
     error FileMarketplace__NoProceedsForWithdraw();
     error FileMarketplace__WithdrawFailed();
     error FileMarketplace__BoughtFailed();
+    error FileMarketplace__ListFailed();
     error FileMarketplace__InvalidOwner(address newFileMarketplaceOwner);
     error FileMarketplace__FileTokenNotListed();
+    error FileMarketplace__FileTokenAlreadyListed();
 
     event FileTokenListed(
         address indexed fileTokenOwner,
@@ -66,16 +67,48 @@ contract FileMarketplace {
     event OwnerChanged(address newFileMarketplaceOwner);
 
     address private fileMarketplaceOwner;
-    uint256 public commissionFee; // how?
+    uint256 public commissionFee;
+    mapping(address => mapping(address => Listing)) private listings; // one owner can have multiple listings => fileTokenOwner => fileToken => Listing
 
-    mapping(address => Listing) private listings;
+    modifier isListed(address fileTokenOwnerAddress, address fileTokenAddress) {
+        if (
+            listings[fileTokenOwnerAddress][fileTokenAddress].fileToken ==
+            address(0)
+        ) {
+            revert FileMarketplace__FileTokenNotListed();
+        }
+        _;
+    }
 
-    constructor(uint256 _commissionFee) {
+    modifier isNotListed(
+        address fileTokenOwnerAddress,
+        address fileTokenAddress
+    ) {
+        if (
+            listings[fileTokenOwnerAddress][fileTokenAddress].fileToken !=
+            address(0)
+        ) {
+            revert FileMarketplace__FileTokenAlreadyListed();
+        }
+        _;
+    }
+
+    constructor(uint256 _commissionFee) Ownable(msg.sender) {
         fileMarketplaceOwner = msg.sender;
         commissionFee = _commissionFee;
     }
 
-    function listFileToken(address fileTokenAddress) public payable {
+    function listFileToken(
+        address fileTokenAddress
+    )
+        public
+        payable
+        isNotListed(
+            IFileToken(fileTokenAddress).creatorOfContract(),
+            fileTokenAddress
+        )
+        nonReentrant
+    {
         if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {
             revert FileMarketplace__NotFileTokenCreator(
                 msg.sender,
@@ -87,7 +120,12 @@ contract FileMarketplace {
             revert FileMarketplace__NotEnoughFee(msg.value, commissionFee);
         }
 
-        listings[msg.sender] = Listing({
+        (bool success, ) = fileMarketplaceOwner.call{value: commissionFee}("");
+        if (!success) {
+            revert FileMarketplace__ListFailed();
+        }
+
+        listings[msg.sender][fileTokenAddress] = Listing({
             fileTokenOwner: msg.sender,
             fileToken: fileTokenAddress,
             fileName: IFileToken(fileTokenAddress).getFileName(),
@@ -98,13 +136,21 @@ contract FileMarketplace {
         emit FileTokenListed(
             msg.sender,
             fileTokenAddress,
-            listings[msg.sender].fileName,
-            listings[msg.sender].fileSymbol,
-            listings[msg.sender].price
+            listings[msg.sender][fileTokenAddress].fileName,
+            listings[msg.sender][fileTokenAddress].fileSymbol,
+            listings[msg.sender][fileTokenAddress].price
         );
     }
 
-    function cancelListing(address fileTokenAddress) public {
+    function cancelListing(
+        address fileTokenAddress
+    )
+        public
+        isListed(
+            IFileToken(fileTokenAddress).creatorOfContract(),
+            fileTokenAddress
+        )
+    {
         if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {
             revert FileMarketplace__NotFileTokenCreator(
                 msg.sender,
@@ -112,16 +158,23 @@ contract FileMarketplace {
             );
         }
 
-        delete listings[msg.sender];
+        delete listings[msg.sender][fileTokenAddress];
 
         emit FileTokenListingCancelled(msg.sender, fileTokenAddress);
     }
 
-    function buyFileToken(address fileTokenOwnerAddress) public payable {
-        Listing memory listing = listings[fileTokenOwnerAddress];
-        if (listing.fileToken == address(0)) {
-            revert FileMarketplace__FileTokenNotListed();
-        }
+    function buyFileToken(
+        address fileTokenOwnerAddress,
+        address fileTokenAddress
+    )
+        public
+        payable
+        isListed(fileTokenOwnerAddress, fileTokenAddress)
+        nonReentrant
+    {
+        Listing memory listing = listings[fileTokenOwnerAddress][
+            fileTokenAddress
+        ];
         if (listing.price > msg.value) {
             revert FileMarketplace__NotEnoughFee(msg.value, listing.price);
         }
@@ -142,7 +195,7 @@ contract FileMarketplace {
         );
     }
 
-    function changeCommissionFee(uint256 newCommissionFee) public {
+    function changeCommissionFee(uint256 newCommissionFee) public onlyOwner {
         if (newCommissionFee < 0) {
             revert FileMarketplace__InvalidCommissionFee(newCommissionFee);
         }
@@ -150,7 +203,7 @@ contract FileMarketplace {
         emit CommissionFeeChanged(newCommissionFee);
     }
 
-    function withdrawCommissionFee() public payable {
+    function withdrawCommissionFee() public payable onlyOwner {
         if (address(this).balance <= 0) {
             revert FileMarketplace__NoProceedsForWithdraw();
         }
@@ -162,7 +215,7 @@ contract FileMarketplace {
         emit ProceedsWithdrawn(balance);
     }
 
-    function changeOwner(address newFileMarketplaceOwner) public {
+    function changeOwner(address newFileMarketplaceOwner) public onlyOwner {
         if (newFileMarketplaceOwner == address(0)) {
             revert FileMarketplace__InvalidOwner(newFileMarketplaceOwner);
         }
