@@ -4,6 +4,7 @@ const {
   developmentChains,
 } = require("../helper-hardhat-config");
 const { verify } = require("../utils/verify");
+const fs = require("fs-extra");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
@@ -20,6 +21,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
+
+  const CONTRACT_ADDRESS_FILE = "./constants/fileMarketplaceAddress.json";
+  const currentAddress = JSON.parse(
+    fs.readFileSync(CONTRACT_ADDRESS_FILE),
+    "utf-8"
+  );
+  currentAddress[chainId] = [fileMarketplace.address];
+
+  console.log("Storing fileMarketplace address...");
+  fs.writeFileSync(CONTRACT_ADDRESS_FILE, JSON.stringify(currentAddress));
+  console.log("Stored!");
 
   if (
     !developmentChains.includes(network.name) &&
