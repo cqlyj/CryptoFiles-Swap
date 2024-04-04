@@ -3,7 +3,7 @@ const contractAddress = require("../../constants/fileMarketplaceAddress.json");
 const { networkConfig } = require("../../helper-hardhat-config");
 const tokenAddress = require("../../constants/fileTokenAddress.json");
 
-async function listFileToken() {
+async function cancelListing() {
   const chainId = network.config.chainId;
   const fileMarketplaceAddress = contractAddress[chainId][0];
   const fileMarketplaceFactory = await ethers.getContractFactory(
@@ -15,16 +15,16 @@ async function listFileToken() {
   const accounts = await ethers.getSigners();
   const deployer = accounts[0];
 
-  console.log("Listing fileToken...");
+  console.log("Canceling listing...");
 
-  const tx = await fileMarketplace.listFileToken(fileTokenAddress);
+  const tx = await fileMarketplace.cancelListing(fileTokenAddress);
   await tx.wait();
   console.log(
-    `FileToken ${fileTokenAddress} listed on ${fileMarketplaceAddress} on chain ${chainId}`
+    `FileToken ${fileTokenAddress} list is cancelled on ${fileMarketplaceAddress} on chain ${chainId}`
   );
 }
 
-listFileToken()
+cancelListing()
   .then(() => process.exit(0))
   .catch((error) => {
     console.log(error);
