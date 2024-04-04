@@ -26,14 +26,28 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   });
 
   const CONTRACT_ADDRESS_FILE = "./constants/fileTokenAddress.json";
+  const CONTRACT_OWNER_ADDRESS_FILE = "./constants/fileTokenOwnerAddress.json";
   const currentAddress = JSON.parse(
     fs.readFileSync(CONTRACT_ADDRESS_FILE),
     "utf-8"
   );
   currentAddress[chainId] = [fileToken.address];
 
+  const currentOwnerAddress = JSON.parse(
+    fs.readFileSync(CONTRACT_OWNER_ADDRESS_FILE),
+    "utf-8"
+  );
+  currentOwnerAddress[chainId] = [deployer];
+
   console.log("Storing fileToken address...");
   fs.writeFileSync(CONTRACT_ADDRESS_FILE, JSON.stringify(currentAddress));
+  console.log("Stored!");
+
+  console.log("Storing fileToken owner address...");
+  fs.writeFileSync(
+    CONTRACT_OWNER_ADDRESS_FILE,
+    JSON.stringify(currentOwnerAddress)
+  );
   console.log("Stored!");
 
   if (
