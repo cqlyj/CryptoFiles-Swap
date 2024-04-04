@@ -164,30 +164,31 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
     }
 
     function buyFileToken(
-        address fileTokenOwnerAddress,
         address fileTokenAddress
     )
         public
         payable
-        isListed(fileTokenOwnerAddress, fileTokenAddress)
+        isListed(
+            IFileToken(fileTokenAddress).creatorOfContract(),
+            fileTokenAddress
+        )
         nonReentrant
     {
-        Listing memory listing = listings[fileTokenOwnerAddress][
-            fileTokenAddress
-        ];
+        Listing memory listing = listings[
+            IFileToken(fileTokenAddress).creatorOfContract()
+        ][fileTokenAddress];
         if (listing.price > msg.value) {
             revert FileMarketplace__NotEnoughFee(msg.value, listing.price);
         }
 
-        (bool success, ) = fileTokenOwnerAddress.call{value: listing.price}("");
+        // call the receive function of the fileToken contract and it will automatically mint the NFT
+        (bool success, ) = fileTokenAddress.call{value: listing.price}("");
         if (!success) {
             revert FileMarketplace__BoughtFailed();
         }
 
-        IFileToken(listing.fileToken).mintNFT(msg.sender);
-
         emit FileTokenBought(
-            fileTokenOwnerAddress,
+            IFileToken(fileTokenAddress).creatorOfContract(),
             listing.fileToken,
             listing.fileName,
             listing.fileSymbol,
