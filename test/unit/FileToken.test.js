@@ -4,7 +4,7 @@ const {
   developmentChains,
   networkConfig,
 } = require("../../helper-hardhat-config");
-const contractAddress = require("../../constants/contractAddress.json");
+const contractAddress = require("../../constants/fileTokenAddress.json");
 
 !developmentChains.includes(network.name)
   ? describe.skip
