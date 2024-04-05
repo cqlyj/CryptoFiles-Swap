@@ -228,6 +228,13 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
         return commissionFee;
     }
 
+    function getListing(
+        address fileTokenOwner,
+        address fileToken
+    ) public view returns (Listing memory) {
+        return listings[fileTokenOwner][fileToken];
+    }
+
     receive() external payable {}
 
     fallback() external payable {}
