@@ -111,4 +111,51 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
           assert.equal(price, await fileToken.getMintFee());
         });
       });
+
+      describe("cancelListing", () => {
+        it("only listed fileToken can be canceled", async () => {
+          await expect(
+            fileMarketplace.connect(accounts[0]).cancelListing(fileTokenAddress)
+          ).to.be.revertedWithCustomError(
+            fileMarketplace,
+            "FileMarketplace__FileTokenNotListed"
+          );
+        });
+        it("only the fileToken creator can cancel the listing", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await expect(
+            fileMarketplace.connect(accounts[1]).cancelListing(fileTokenAddress)
+          ).to.be.revertedWithCustomError(
+            fileMarketplace,
+            "FileMarketplace__NotFileTokenCreator"
+          );
+        });
+        it("should emit a FileTokenUnlisted event", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await expect(
+            fileMarketplace.connect(accounts[0]).cancelListing(fileTokenAddress)
+          )
+            .to.emit(fileMarketplace, "FileTokenListingCancelled")
+            .withArgs(accounts[0], fileTokenAddress);
+        });
+        it("should update the listing once is canceled", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await fileMarketplace
+            .connect(accounts[0])
+            .cancelListing(fileTokenAddress);
+          const listing = await fileMarketplace.getListing(
+            deployer,
+            fileTokenAddress
+          );
+          assert.equal(listing.fileName, "");
+          assert.equal(listing.fileSymbol, "");
+          assert.equal(listing.price, 0);
+        });
+      });
     });
