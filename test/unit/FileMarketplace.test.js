@@ -158,4 +158,67 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
           assert.equal(listing.price, 0);
         });
       });
+
+      describe("buyFileToken", () => {
+        it("only listed fileToken can be bought", async () => {
+          await expect(
+            fileMarketplace
+              .connect(accounts[1])
+              .buyFileToken(fileTokenAddress, { value: commissionFee })
+          ).to.be.revertedWithCustomError(
+            fileMarketplace,
+            "FileMarketplace__FileTokenNotListed"
+          );
+        });
+        it("should revert if the value is less than the price", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await expect(
+            fileMarketplace
+              .connect(accounts[1])
+              .buyFileToken(fileTokenAddress, {
+                value: commissionFee - BigInt(1),
+              })
+          ).to.be.revertedWithCustomError(
+            fileMarketplace,
+            "FileMarketplace__NotEnoughFee"
+          );
+        });
+        it("should revert if the call fails", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await expect(
+            fileMarketplace
+              .connect(accounts[1])
+              .buyFileToken(fileTokenAddress, {
+                value: commissionFee,
+              })
+          ).to.be.revertedWithCustomError(
+            fileMarketplace,
+            "FileMarketplace__BoughtFailed"
+          );
+        });
+        it("should emit a FileTokenBought event", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await expect(
+            fileMarketplace
+              .connect(accounts[1])
+              .buyFileToken(fileTokenAddress, {
+                value: commissionFee,
+              })
+          )
+            .to.emit(fileMarketplace, "FileTokenBought")
+            .withArgs(
+              accounts[0],
+              fileTokenAddress,
+              await fileToken.getFileName(),
+              await fileToken.getFileSymbol(),
+              accounts[1]
+            );
+        });
+      });
     });
