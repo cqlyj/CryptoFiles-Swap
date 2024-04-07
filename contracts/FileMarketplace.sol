@@ -182,7 +182,7 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
         }
 
         // call the receive function of the fileToken contract and it will automatically mint the NFT
-        (bool success, ) = fileTokenAddress.call{value: listing.price}("");
+        (bool success, ) = fileTokenAddress.call{value: msg.value}("");
         if (!success) {
             revert FileMarketplace__BoughtFailed();
         }
