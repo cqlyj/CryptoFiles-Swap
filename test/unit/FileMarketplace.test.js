@@ -287,5 +287,27 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
             .withArgs(commissionFee);
         });
       });
-      
+      describe("changeOwner", () => {
+        it("only the owner can change the owner", async () => {
+          await expect(
+            fileMarketplace
+              .connect(accounts[1])
+              .changeOwner(accounts[1].address)
+          ).to.be.reverted;
+        });
+        it("should update the owner", async () => {
+          await fileMarketplace
+            .connect(deployer)
+            .changeOwner(accounts[1].address);
+          const owner = await fileMarketplace.owner();
+          expect(owner).to.equal(accounts[1].address);
+        });
+        it("should emit a OwnerChanged event", async () => {
+          await expect(
+            fileMarketplace.connect(deployer).changeOwner(accounts[1].address)
+          )
+            .to.emit(fileMarketplace, "OwnerChanged")
+            .withArgs(accounts[1].address);
+        });
+      });
     });
