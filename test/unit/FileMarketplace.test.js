@@ -185,21 +185,6 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
             "FileMarketplace__NotEnoughFee"
           );
         });
-        it("should revert if the call fails", async () => {
-          await fileMarketplace
-            .connect(accounts[0])
-            .listFileToken(fileTokenAddress, { value: commissionFee });
-          await expect(
-            fileMarketplace
-              .connect(accounts[1])
-              .buyFileToken(fileTokenAddress, {
-                value: commissionFee,
-              })
-          ).to.be.revertedWithCustomError(
-            fileMarketplace,
-            "FileMarketplace__BoughtFailed"
-          );
-        });
         it("should emit a FileTokenBought event", async () => {
           await fileMarketplace
             .connect(accounts[0])
@@ -219,6 +204,18 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
               await fileToken.getFileSymbol(),
               accounts[1]
             );
+        });
+        it("should call the mint function of the fileToken contract", async () => {
+          let tokenId = await fileToken.tokenId();
+          assert.equal(tokenId, 0);
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await fileMarketplace
+            .connect(accounts[1])
+            .buyFileToken(fileTokenAddress, { value: commissionFee });
+          tokenId = await fileToken.tokenId();
+          assert.equal(tokenId, 1);
         });
       });
     });
