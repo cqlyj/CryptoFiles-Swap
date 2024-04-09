@@ -123,7 +123,7 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
             revert FileMarketplace__NotEnoughFee(msg.value, commissionFee);
         }
 
-        (bool success, ) = fileMarketplaceOwner.call{value: commissionFee}("");
+        (bool success, ) = payable(address(this)).call{value: msg.value}("");
         if (!success) {
             revert FileMarketplace__ListFailed();
         }
