@@ -40,7 +40,6 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
     error FileMarketplace__WithdrawFailed();
     error FileMarketplace__BoughtFailed();
     error FileMarketplace__ListFailed();
-    error FileMarketplace__InvalidOwner(address newFileMarketplaceOwner);
     error FileMarketplace__FileTokenNotListed();
     error FileMarketplace__FileTokenAlreadyListed();
 
@@ -225,10 +224,8 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
     }
 
     function changeOwner(address newFileMarketplaceOwner) public onlyOwner {
-        if (newFileMarketplaceOwner == address(0)) {
-            revert FileMarketplace__InvalidOwner(newFileMarketplaceOwner);
-        }
         fileMarketplaceOwner = newFileMarketplaceOwner;
+        Ownable.transferOwnership(newFileMarketplaceOwner);
         emit OwnerChanged(newFileMarketplaceOwner);
     }
 
