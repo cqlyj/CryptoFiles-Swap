@@ -218,4 +218,29 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
           assert.equal(tokenId, 1);
         });
       });
+
+      describe("changeCommissionFee", () => {
+        it("only the owner can change the commission fee", async () => {
+          await expect(
+            fileMarketplace
+              .connect(accounts[0])
+              .changeCommissionFee(ethers.parseEther("0.2"))
+          )
+            .to.emit(fileMarketplace, "CommissionFeeChanged")
+            .withArgs(ethers.parseEther("0.2"));
+
+          await expect(
+            fileMarketplace
+              .connect(accounts[1])
+              .changeCommissionFee(commissionFee)
+          ).to.be.reverted;
+        });
+        it("should update the commission fee", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .changeCommissionFee(ethers.parseEther("0.2"));
+          const commissionFeeGet = await fileMarketplace.commissionFee();
+          expect(ethers.formatEther(commissionFeeGet)).to.equal("0.2");
+        });
+      });
     });
