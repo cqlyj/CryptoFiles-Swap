@@ -104,15 +104,18 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
         public
         payable
         isNotListed(
-            IFileToken(fileTokenAddress).creatorOfContract(),
+            IFileToken(payable(fileTokenAddress)).creatorOfContract(),
             fileTokenAddress
         )
         nonReentrant
     {
-        if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {
+        if (
+            msg.sender !=
+            IFileToken(payable(fileTokenAddress)).creatorOfContract()
+        ) {
             revert FileMarketplace__NotFileTokenCreator(
                 msg.sender,
-                IFileToken(fileTokenAddress).creatorOfContract()
+                IFileToken(payable(fileTokenAddress)).creatorOfContract()
             );
         }
 
@@ -128,9 +131,9 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
         listings[msg.sender][fileTokenAddress] = Listing({
             fileTokenOwner: msg.sender,
             fileToken: fileTokenAddress,
-            fileName: IFileToken(fileTokenAddress).getFileName(),
-            fileSymbol: IFileToken(fileTokenAddress).getFileSymbol(),
-            price: IFileToken(fileTokenAddress).getMintFee()
+            fileName: IFileToken(payable(fileTokenAddress)).getFileName(),
+            fileSymbol: IFileToken(payable(fileTokenAddress)).getFileSymbol(),
+            price: IFileToken(payable(fileTokenAddress)).getMintFee()
         });
 
         emit FileTokenListed(
@@ -147,14 +150,17 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
     )
         public
         isListed(
-            IFileToken(fileTokenAddress).creatorOfContract(),
+            IFileToken(payable(fileTokenAddress)).creatorOfContract(),
             fileTokenAddress
         )
     {
-        if (msg.sender != IFileToken(fileTokenAddress).creatorOfContract()) {
+        if (
+            msg.sender !=
+            IFileToken(payable(fileTokenAddress)).creatorOfContract()
+        ) {
             revert FileMarketplace__NotFileTokenCreator(
                 msg.sender,
-                IFileToken(fileTokenAddress).creatorOfContract()
+                IFileToken(payable(fileTokenAddress)).creatorOfContract()
             );
         }
 
@@ -169,26 +175,28 @@ contract FileMarketplace is Ownable, ReentrancyGuard {
         public
         payable
         isListed(
-            IFileToken(fileTokenAddress).creatorOfContract(),
+            IFileToken(payable(fileTokenAddress)).creatorOfContract(),
             fileTokenAddress
         )
         nonReentrant
     {
         Listing memory listing = listings[
-            IFileToken(fileTokenAddress).creatorOfContract()
+            IFileToken(payable(fileTokenAddress)).creatorOfContract()
         ][fileTokenAddress];
         if (listing.price > msg.value) {
             revert FileMarketplace__NotEnoughFee(msg.value, listing.price);
         }
 
         // call the receive function of the fileToken contract and it will automatically mint the NFT
-        (bool success, ) = fileTokenAddress.call{value: msg.value}("");
+        (bool success, ) = payable(fileTokenAddress).call{value: msg.value}(
+            abi.encodeWithSignature("mintNFT(address)", msg.sender)
+        );
         if (!success) {
             revert FileMarketplace__BoughtFailed();
         }
 
         emit FileTokenBought(
-            IFileToken(fileTokenAddress).creatorOfContract(),
+            IFileToken(payable(fileTokenAddress)).creatorOfContract(),
             listing.fileToken,
             listing.fileName,
             listing.fileSymbol,
