@@ -25,4 +25,10 @@ interface IFileToken {
 
     // Function to get the creator of the contract
     function creatorOfContract() external view returns (address);
+
+    // Function for receiving Ether
+    receive() external payable;
+
+    // Function for fallback
+    fallback() external payable;
 }
