@@ -253,18 +253,39 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
       });
 
       describe("withdrawCommissionFee", () => {
-        it("only the owner can withdraw the commission fee", async () => {
+        it("only can be called when there is a balance", async () => {
+          await expect(
+            fileMarketplace.connect(deployer).withdrawCommissionFee()
+          ).to.be.revertedWithCustomError(
+            fileMarketplace,
+            "FileMarketplace__NoProceedsForWithdraw"
+          );
+        });
+        it("only can be called by the owner", async () => {
           await fileMarketplace
             .connect(accounts[0])
             .listFileToken(fileTokenAddress, { value: commissionFee });
-
-          await fileMarketplace
-            .connect(accounts[1])
-            .buyFileToken(fileTokenAddress, { value: commissionFee });
-
+          let balance = await ethers.provider.getBalance(
+            fileMarketplace.target
+          );
+          assert.notEqual(balance, 0);
           await expect(
-            fileMarketplace.connect(accounts[0]).withdrawCommissionFee()
+            fileMarketplace.connect(accounts[1]).withdrawCommissionFee()
           ).to.be.reverted;
+          await fileMarketplace.connect(deployer).withdrawCommissionFee();
+          balance = await ethers.provider.getBalance(fileMarketplace.target);
+          assert.equal(balance, 0);
+        });
+        it("should emit a CommissionFeeWithdrawn event", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          await expect(
+            fileMarketplace.connect(deployer).withdrawCommissionFee()
+          )
+            .to.emit(fileMarketplace, "ProceedsWithdrawn")
+            .withArgs(commissionFee);
         });
       });
+      
     });
