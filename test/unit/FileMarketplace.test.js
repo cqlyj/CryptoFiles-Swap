@@ -221,18 +221,17 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
 
       describe("changeCommissionFee", () => {
         it("only the owner can change the commission fee", async () => {
-          await expect(
-            fileMarketplace
-              .connect(accounts[0])
-              .changeCommissionFee(ethers.parseEther("0.2"))
-          )
-            .to.emit(fileMarketplace, "CommissionFeeChanged")
-            .withArgs(ethers.parseEther("0.2"));
+          await fileMarketplace
+            .connect(deployer)
+            .changeCommissionFee(ethers.parseEther("0.2"));
+
+          const commissionFeeGet = await fileMarketplace.commissionFee();
+          expect(ethers.formatEther(commissionFeeGet)).to.equal("0.2");
 
           await expect(
             fileMarketplace
               .connect(accounts[1])
-              .changeCommissionFee(commissionFee)
+              .changeCommissionFee(ethers.parseEther("0.2"))
           ).to.be.reverted;
         });
         it("should update the commission fee", async () => {
@@ -241,6 +240,31 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
             .changeCommissionFee(ethers.parseEther("0.2"));
           const commissionFeeGet = await fileMarketplace.commissionFee();
           expect(ethers.formatEther(commissionFeeGet)).to.equal("0.2");
+        });
+        it("should emit a CommissionFeeChanged event", async () => {
+          await expect(
+            fileMarketplace
+              .connect(deployer)
+              .changeCommissionFee(ethers.parseEther("0.2"))
+          )
+            .to.emit(fileMarketplace, "CommissionFeeChanged")
+            .withArgs(ethers.parseEther("0.2"));
+        });
+      });
+
+      describe("withdrawCommissionFee", () => {
+        it("only the owner can withdraw the commission fee", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+
+          await fileMarketplace
+            .connect(accounts[1])
+            .buyFileToken(fileTokenAddress, { value: commissionFee });
+
+          await expect(
+            fileMarketplace.connect(accounts[0]).withdrawCommissionFee()
+          ).to.be.reverted;
         });
       });
     });
