@@ -133,7 +133,7 @@ const contractAddress = require("../../constants/fileTokenAddress.json");
         });
       });
 
-      describe("getFileTokenURI", () => {
+      describe("TokenURI", () => {
         it("should revert if the token does not exist", async () => {
           await expect(fileToken.tokenURI(0)).to.be.revertedWithCustomError(
             fileToken,
