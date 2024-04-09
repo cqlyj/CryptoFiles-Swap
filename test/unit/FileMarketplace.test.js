@@ -310,4 +310,26 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
             .withArgs(accounts[1].address);
         });
       });
+
+      describe("getCommissionFee", () => {
+        it("should return the commission fee", async () => {
+          const commissionFeeGet = await fileMarketplace.getCommissionFee();
+          expect(commissionFee).to.equal(commissionFeeGet);
+        });
+      });
+
+      describe("getListing", () => {
+        it("should return the listing", async () => {
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          const listing = await fileMarketplace.getListing(
+            deployer,
+            fileTokenAddress
+          );
+          assert.equal(listing.fileName, await fileToken.getFileName());
+          assert.equal(listing.fileSymbol, await fileToken.getFileSymbol());
+          assert.equal(listing.price, await fileToken.getMintFee());
+        });
+      });
     });
