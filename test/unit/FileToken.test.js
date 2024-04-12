@@ -131,6 +131,7 @@ const contractAddress = require("../../constants/fileTokenAddress.json");
           await expect(fileToken.connect(accounts[1]).withdraw()).to.be
             .reverted;
         });
+        it("should ")
       });
 
       describe("TokenURI", () => {
@@ -152,6 +153,57 @@ const contractAddress = require("../../constants/fileTokenAddress.json");
             fileToken,
             "FileToken__NotOwnerOfToken"
           );
+        });
+      });
+
+      describe("receive and fallback", () => {
+        it("should receive ether only when the value is greater than the mintFee and call the mintNFT function", async () => {
+          const balanceBefore = await ethers.provider.getBalance(
+            fileToken.target
+          );
+          await deployer.sendTransaction({
+            to: fileToken.target,
+            value: await fileToken.mintFee(),
+          });
+          const balanceAfter = await ethers.provider.getBalance(
+            fileToken.target
+          );
+          expect(balanceAfter).to.be.gt(balanceBefore);
+        });
+        it("should revert if the value is less than the mintFee", async () => {
+          await expect(
+            deployer.sendTransaction({
+              to: fileToken.target,
+              value: (await fileToken.mintFee()) - BigInt(1),
+            })
+          ).to.be.revertedWithCustomError(
+            fileToken,
+            "FileToken__MoreEthNeeded"
+          );
+          await expect(
+            deployer.sendTransaction({
+              to: fileToken.target,
+              value: (await fileToken.mintFee()) - BigInt(1),
+              data: "0x1234",
+            })
+          ).to.be.revertedWithCustomError(
+            fileToken,
+            "FileToken__MoreEthNeeded"
+          );
+        });
+        it("should call the fallback function when receiving ether with data not empty", async () => {
+          const balanceBefore = await ethers.provider.getBalance(
+            fileToken.target
+          );
+          await deployer.sendTransaction({
+            to: fileToken.target,
+            value: await fileToken.mintFee(),
+            data: "0x1234",
+          });
+          const balanceAfter = await ethers.provider.getBalance(
+            fileToken.target
+          );
+          expect(balanceAfter).to.be.gt(balanceBefore);
         });
       });
     });
