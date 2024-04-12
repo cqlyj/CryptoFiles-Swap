@@ -30,7 +30,7 @@ async function withdrawCommissionFee() {
   );
 
   console.log(`proceedsAfter: ${proceedsAfter}`);
-  const proceeds = proceedsAfter - proceedsBefore;
+  const proceeds = proceedsBefore - proceedsAfter;
 
   console.log(
     `fileMarketplace ${fileMarketplaceAddress} commission fee total up to ${proceeds} withdrawn by ${deployer.address}`
