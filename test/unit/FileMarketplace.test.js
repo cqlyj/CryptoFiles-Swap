@@ -238,7 +238,7 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
           await fileMarketplace
             .connect(accounts[0])
             .changeCommissionFee(ethers.parseEther("0.2"));
-          const commissionFeeGet = await fileMarketplace.commissionFee();
+          const commissionFeeGet = await fileMarketplace.getCommissionFee();
           expect(ethers.formatEther(commissionFeeGet)).to.equal("0.2");
         });
         it("should emit a CommissionFeeChanged event", async () => {
