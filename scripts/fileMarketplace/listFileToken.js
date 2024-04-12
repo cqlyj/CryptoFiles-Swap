@@ -12,12 +12,16 @@ async function listFileToken() {
   const fileMarketplace = fileMarketplaceFactory.attach(fileMarketplaceAddress);
   const fileTokenAddress = tokenAddress[chainId][0];
 
+  const commissionFee = await fileMarketplace.commissionFee();
+
   const accounts = await ethers.getSigners();
   const deployer = accounts[0];
 
   console.log("Listing fileToken...");
 
-  const tx = await fileMarketplace.listFileToken(fileTokenAddress);
+  const tx = await fileMarketplace.listFileToken(fileTokenAddress, {
+    value: commissionFee,
+  });
   await tx.wait();
   console.log(
     `FileToken ${fileTokenAddress} listed on ${fileMarketplaceAddress} on chain ${chainId}`
