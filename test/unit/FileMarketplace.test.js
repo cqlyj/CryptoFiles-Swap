@@ -110,6 +110,17 @@ const fileTokenContractAddress = require("../../constants/fileTokenAddress.json"
           assert.equal(fileSymbol, await fileToken.getFileSymbol());
           assert.equal(price, await fileToken.getMintFee());
         });
+        it("should transfer the commission fee to the contract", async () => {
+          let balance = await ethers.provider.getBalance(
+            fileMarketplace.target
+          );
+          assert.equal(balance, 0);
+          await fileMarketplace
+            .connect(accounts[0])
+            .listFileToken(fileTokenAddress, { value: commissionFee });
+          balance = await ethers.provider.getBalance(fileMarketplace.target);
+          assert.equal(balance, commissionFee);
+        });
       });
 
       describe("cancelListing", () => {
