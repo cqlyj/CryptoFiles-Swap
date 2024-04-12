@@ -131,7 +131,6 @@ const contractAddress = require("../../constants/fileTokenAddress.json");
           await expect(fileToken.connect(accounts[1]).withdraw()).to.be
             .reverted;
         });
-        it("should ")
       });
 
       describe("TokenURI", () => {
