@@ -75,7 +75,7 @@ const contractAddress = require("../../constants/fileTokenAddress.json");
             })
           )
             .to.emit(fileToken, "TokenMinted")
-            .withArgs(accounts[1], 0, "test URI");
+            .withArgs(accounts[1], 0, fileTokenURI);
         });
       });
 
