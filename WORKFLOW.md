@@ -14,7 +14,7 @@
 - The `FileToken` contract assigns a new NFT to the user, incrementing the `tokenId` and marking it as minted.
 
 ### 5. Commission Fees
-- TBC
+- The `FileMarketplace` charges a commission fee on each listing transaction. This fee is collected in the `FileMarketplace` contract and can be withdrawn by the marketplace owner.
 
 ### 6. After Minting
 - The user now owns the NFT representing the file and can view the token URI to access the file's metadata and potentially the file itself.
