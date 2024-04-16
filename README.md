@@ -6,7 +6,7 @@ This project aims to create a decentralized platform for securely storing and tr
 
 - **Blockchain:** Ethereum
 - **Smart Contracts:** Solidity
-- **Decentralized Storage:** IPFS (InterPlanetary File System)
+- **Decentralized Storage:** IPFS (InterPlanetary File System), Pinata(For IPFS pinning)
 - **Frontend Framework:** Next.js
 - **Web3 Integration:** Ethers.js
 
@@ -39,7 +39,7 @@ This project aims to create a decentralized platform for securely storing and tr
 
 - Setup and Research: ✅
 - Smart Contract Development: ✅
-- IPFS Integration: ❎
+- IPFS Integration: ✅
 - Frontend Development: ❎
 - End-to-End Testing: ❎
 - Deployment: ❎
