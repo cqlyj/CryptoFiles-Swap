@@ -5,16 +5,34 @@ const {
 } = require("../helper-hardhat-config");
 const { verify } = require("../utils/verify");
 const fs = require("fs-extra");
+const {
+  uploadToPinata,
+  storeTokenURIMetadata,
+} = require("../utils/uploadToPinata");
+
+const chainId = network.config.chainId;
+
+const fileName = networkConfig[chainId].fileName;
+const fileSymbol = networkConfig[chainId].fileSymbol;
+const mintFee = networkConfig[chainId].mintFee;
+
+const testFilePath = "./constants/test/testFile.txt";
+let fileTokenURI = "";
+const metadataTemplate = {
+  name: "",
+  description: "",
+  external_url: "",
+};
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
-  const chainId = network.config.chainId;
 
-  const fileName = networkConfig[chainId].fileName;
-  const fileSymbol = networkConfig[chainId].fileSymbol;
-  const mintFee = networkConfig[chainId].mintFee;
-  const fileTokenURI = "test URI";
+  if (process.env.UPLOAD_TO_PINATA === "true") {
+    fileTokenURI = await handleFileTokenURI();
+  } else {
+    fileTokenURI = "test URI";
+  }
 
   const args = [fileName, fileSymbol, fileTokenURI, mintFee];
 
@@ -46,5 +64,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   }
   log("_______________________________________");
 };
+
+async function handleFileTokenURI() {
+  const res = await uploadToPinata(testFilePath);
+  let fileTokenMetadata = { ...metadataTemplate };
+  fileTokenMetadata.name = fileName;
+  fileTokenMetadata.description = `This is a unique NFT representing file ${fileName}`;
+  fileTokenMetadata.external_url = `https://ipfs.io/ipfs/${res.IpfsHash}`;
+  const metadataRes = await storeTokenURIMetadata(fileTokenMetadata);
+  fileTokenURI = `ipfs://${metadataRes.IpfsHash}`;
+  console.log(`fileTokenURI uploaded, it's available at ${fileTokenURI}`);
+  return fileTokenURI;
+}
 
 module.exports.tags = ["FileToken", "all"];
