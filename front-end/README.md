@@ -33,7 +33,7 @@ FileTokens will include a random picture generated based on the tokenName. This 
 
 ## Technologies Used
 - Frontend Framework: Next.js
-- Web3 Integration: Web3UIKit, Moralis, React-Moralis
+- Web3 Integration: Thirdweb, Moralis, React-Moralis
 - Decentralized Database: The Graph
 .
 
