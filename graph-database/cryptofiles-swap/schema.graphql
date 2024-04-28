@@ -1,0 +1,65 @@
+type CommissionFeeChanged @entity(immutable: true) {
+  id: Bytes!
+  newCommissionFee: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FileTokenBought @entity(immutable: true) {
+  id: Bytes!
+  fileTokenOwner: Bytes! # address
+  fileToken: Bytes! # address
+  fileName: String! # string
+  fileSymbol: String! # string
+  buyer: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FileTokenListed @entity(immutable: true) {
+  id: Bytes!
+  fileTokenOwner: Bytes! # address
+  fileToken: Bytes! # address
+  fileName: String! # string
+  fileSymbol: String! # string
+  price: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FileTokenListingCancelled @entity(immutable: true) {
+  id: Bytes!
+  fileTokenOwner: Bytes! # address
+  fileToken: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnerChanged @entity(immutable: true) {
+  id: Bytes!
+  newFileMarketplaceOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ProceedsWithdrawn @entity(immutable: true) {
+  id: Bytes!
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
