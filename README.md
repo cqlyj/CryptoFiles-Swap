@@ -9,6 +9,7 @@ This project aims to create a decentralized platform for securely storing and tr
 - **Decentralized Storage:** IPFS (InterPlanetary File System), Pinata(For IPFS pinning)
 - **Frontend Framework:** Next.js
 - **Web3 Integration:** Ethers.js
+- **Database:** The Graph (For indexing blockchain data)
 
 ## Development Checkpoints
 
