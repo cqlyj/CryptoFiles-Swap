@@ -1,8 +1,0 @@
-{
-  "sepolia": {
-    "FileMarketplace": {
-      "address": "0xC59281e49D8f3519DF2305676Efe3100E190c3B5",
-      "startBlock": 5681479
-    }
-  }
-}
