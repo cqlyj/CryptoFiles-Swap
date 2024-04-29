@@ -1,42 +1,36 @@
-## Pages
-1. **Home Page**
-   - Display available FileTokens in the marketplace.
-   - Include filtering and sorting options.
-   - Show key details of each FileToken.
-   - Users can browse and search for FileTokens based on their preferences.
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-2. **Detail Page**
-   - Show detailed information about a specific FileToken.
-   - Allow users to buy the FileToken and view its metadata.
-   - Display key attributes such as name, symbol, owner, minting fee, and a random picture based on the tokenName.
+## Getting Started
 
-3. **Minting Page**
-   - Form for minting new FileTokens.
-   - Fields for file name, symbol, tokenURI, and minting fee.
-   - Users can mint new FileTokens by providing necessary details and uploading a preview image.
+First, run the development server:
 
-4. **Upload TokenURI Page**
-   - Allow FileToken owners to upload or update tokenURI.
-   - Authenticate using Moralis for ownership verification.
-   - Owners can manage their FileTokens and update associated metadata.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-5. **Profile Page**
-   - View and manage owned FileTokens, transactions, and account details.
-   - Users can track their FileToken ownership, transaction history, and update profile information.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-6. **Admin Dashboard**
-   - Manage platform settings, user permissions, and commission fees.
-   - Administrators can control various aspects of the platform, set commission rates, and monitor user activities.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-## Random Picture Generation
-FileTokens will include a random picture generated based on the tokenName. This approach simplifies the process for users as they don't need to upload separate cover images or manage tokenURIs for preview purposes.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Technologies Used
-- Frontend Framework: Next.js
-- Web3 Integration: Thirdweb, Moralis, React-Moralis
-- Decentralized Database: The Graph
-.
+## Learn More
 
-## License
-MIT License.
+To learn more about Next.js, take a look at the following resources:
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
