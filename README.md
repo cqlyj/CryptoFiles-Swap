@@ -2,43 +2,96 @@
 
 This project aims to create a decentralized platform for securely storing and trading files using blockchain technology. Users can upload files to IPFS, tokenize them as digital assets on the Ethereum blockchain, and trade them in a secure marketplace.
 
-## Technologies Used
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">Overview</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-- **Blockchain:** Ethereum
-- **Smart Contracts:** Solidity
-- **Decentralized Storage:** IPFS (InterPlanetary File System), Pinata(For IPFS pinning)
-- **Web3 Integration:** Ethers.js
+## Getting Started
 
-## Development Checkpoints
+1. Clone the repository:
 
-- **Setup and Research**
-  - Initialize project repository
-  - Research IPFS and smart contract interactions
-- **Smart Contract Development**
-  - Write smart contracts for file tokenization and marketplace transactions
-  - Test contracts
-- **IPFS Integration**
-  - Implement file upload and retrieval mechanisms with IPFS
-  - Store file references in smart contracts
-- **End-to-End Testing**
-  - Test complete workflow on testnet 
-  - Fix bugs and optimize based on test results
-- **Deployment**
-  - Deploy smart contracts to testnet 
-  - Launch frontend application
-- **Post-Launch**
-  - Monitor platform performance
-  - Iterate based on user feedback
+```sh
+ git clone https://github.com/cqlyj/CryptoFiles-Swap.git
+```
 
-## Project Status
+2. Install dependencies:
 
-- Setup and Research: ✅
-- Smart Contract Development: ✅
-- IPFS Integration: ✅
-- End-to-End Testing: ❎
-- Deployment: ❎
-- Post-Launch: ❎
+```sh
+yarn install
+```
+
+3. Compile the smart contracts:
+
+```sh
+yarn hardhat compile
+```
+
+or
+
+```sh
+hh compile
+```
+
+4. Run the test:
+
+```sh
+yarn hardhat test
+```
+
+or
+
+```sh
+hh test
+```
+
+5. Create your own .env file. Follow the .env.example file.
+
+6. Deploy the contract:
+
+```sh
+yarn hardhat deploy --network sepolia
+```
+
+or
+
+```sh
+hh deploy --network sepolia
+```
+
+7. Now you can run some scripts to interact with the contract:
+
+```sh
+yarn hardhat run scripts/WHAT_SCRIPTS_YOU_WANT_TO_RUN --network sepolia
+```
+
+or
+
+```sh
+hh run scripts/WHAT_SCRIPTS_YOU_WANT_TO_RUN --network sepolia
+```
 
 ## License
 
 MIT
+
+## Contact
+
+Your Name - Luo Yingjie - luoyingjie0721@gmail.com
