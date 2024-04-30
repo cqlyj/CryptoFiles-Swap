@@ -3,6 +3,8 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "./PriceConverter.sol";
 
 // This contract is for creating NFTs for files
 // The owner need to sepecify the file name, file symbol, token URI and mint fee when deploying the contract -- from the front end deploy the contract
@@ -12,6 +14,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // Only those who mint the NFT can call the getTokenURI function to get the token URI
 
 contract FileToken is ERC721URIStorage, Ownable {
+    using PriceConverter for uint256;
+
     //error
     error FileToken__MoreEthNeeded(uint256 requiredAmount, uint256 sentAmount);
     error FileToken__WithdrawFailed();
@@ -34,6 +38,7 @@ contract FileToken is ERC721URIStorage, Ownable {
     string private fileTokenURI;
     string public fileName;
     string public fileSymbol;
+    AggregatorV3Interface private priceFeed;
 
     mapping(uint256 => bool) private mintedTokens;
 
@@ -43,7 +48,8 @@ contract FileToken is ERC721URIStorage, Ownable {
         string memory _fileName,
         string memory _fileSymbol,
         string memory _tokenURI,
-        uint256 _mintFee
+        uint256 _mintFee,
+        address _priceFeedAddress
     ) ERC721(_fileName, _fileSymbol) Ownable(msg.sender) {
         tokenId = 0;
         mintFee = _mintFee;
@@ -51,6 +57,7 @@ contract FileToken is ERC721URIStorage, Ownable {
         fileName = _fileName;
         fileSymbol = _fileSymbol;
         mintedTokens[tokenId] = false;
+        priceFeed = AggregatorV3Interface(_priceFeedAddress);
     }
 
     // functions
@@ -112,6 +119,10 @@ contract FileToken is ERC721URIStorage, Ownable {
 
     function getFileSymbol() public view returns (string memory) {
         return fileSymbol;
+    }
+
+    function getPriceFeed() public view returns (AggregatorV3Interface) {
+        return priceFeed;
     }
 
     receive() external payable {
