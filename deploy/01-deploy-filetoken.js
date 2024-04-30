@@ -28,13 +28,21 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
 
+  let ethUsdPriceFeedAddress;
+  if (developmentChains.includes(network.name)) {
+    const ethUsdAggregator = await deployments.get("MockV3Aggregator");
+    ethUsdPriceFeedAddress = ethUsdAggregator.address;
+  } else {
+    ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"];
+  }
+
   if (process.env.UPLOAD_TO_PINATA === "true") {
     fileTokenURI = await handleFileTokenURI();
   } else {
     fileTokenURI = "test URI";
   }
 
-  const args = [fileName, fileSymbol, fileTokenURI, mintFee];
+  const args = [fileName, fileSymbol, fileTokenURI, mintFee, ethUsdPriceFeedAddress];
 
   const fileToken = await deploy("FileToken", {
     from: deployer,
