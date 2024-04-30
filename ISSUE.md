@@ -16,4 +16,4 @@
 
 ### How to refactor the buyFileToken so that it can take arbitrary tokens as payments? => Also set the mintFee in other currencies.
 
-- solution: chainlink price feeds!
+- solution: chainlink price feeds!✅
